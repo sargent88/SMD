@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./dist/styles.css" />
+</head>
+
+<body>
+
+    <div class="site-wrapper">
+        <header class="site-header" role="banner">
+            <div class="container">
+                <nav class="site-nav">
+                    <img src="" alt="wolf">
+                    <a ui-sref="home">Home</a>
+                    <a ui-sref="users">Users</a>
+                    <a ui-sref="client">Patients</a>
+                    <a ui-sref="data">Data Set</a>
+                    <a ui-sref="location">Location</a>
+                </nav>
+                <nav class="login">
+                    Username<input type="text">
+                    </br>
+                    Password<input type="text">
+                    </br>
+                    <button>Submit</button>
+                </nav>
+
+            </div>
+        </header>
+        <main class="site-main" role="main">
+
+            <ui-view></ui-view>
+
+        </main>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
+    <script src="dist/bundle.js"></script>
+
+</body>
+
+</html>
