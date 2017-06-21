@@ -109,6 +109,8 @@ app.get('/auth/logout', function(req, res) {
     res.redirect('/');
 })
 
+app.get('/api/getPatients', controller.getPatients);
+
 app.listen(3000, function() {
     console.log('Connected on port', port)
 })

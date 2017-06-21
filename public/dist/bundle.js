@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app', ['ui.router']).config(function ($stateProvider, $urlRouterProvider) {
+angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pinning', 'ui.grid.selection', 'ui.grid.moveColumns', 'ui.grid.exporter', 'ui.grid.importer', 'ui.grid.grouping']).config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/');
 
     $stateProvider.state('home', {
@@ -14,8 +14,8 @@ angular.module('app', ['ui.router']).config(function ($stateProvider, $urlRouter
         templateUrl: './views/client.html'
     }).state('data', {
         url: '/data',
-        templateUrl: './views/data.html'
-        // controller: './js/controller/dataCtrl.js'
+        templateUrl: './views/data.html',
+        controller: 'dataCtrl'
     }).state('location', {
         url: 'location',
         templateUrl: './views/location.html'
@@ -25,7 +25,19 @@ angular.module('app', ['ui.router']).config(function ($stateProvider, $urlRouter
 "use strict";
 'use strict';
 
-angular.module('app').controller('dataCtrl', function (dataSrv, $scope) {});
+angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, dataSrv) {
+
+    $scope.gridOptions = {
+        enableFiltering: true
+    };
+    $scope.receivePatients = function () {
+        dataSrv.getPatients().then(function (response) {
+            console.log(response);
+            $scope.gridOptions.data = response.data;
+        });
+    };
+    $scope.receivePatients();
+});
 'use strict';
 
 angular.module('app').controller('mainCtrl', function ($scope, mainSrv) {
@@ -35,7 +47,15 @@ angular.module('app').controller('mainCtrl', function ($scope, mainSrv) {
 "use strict";
 'use strict';
 
-angular.module('app').controller('dataCtrl', function ($http) {});
+angular.module('app').service('dataSrv', function ($http) {
+
+    this.getPatients = function () {
+        return $http({
+            url: '/api/getPatients',
+            method: 'GET'
+        });
+    };
+});
 'use strict';
 
 angular.module('app').service('mainSrv', function ($http) {

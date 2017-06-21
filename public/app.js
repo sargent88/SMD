@@ -1,4 +1,4 @@
-angular.module('app', ['ui.router'])
+angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pinning', 'ui.grid.selection', 'ui.grid.moveColumns', 'ui.grid.exporter', 'ui.grid.importer', 'ui.grid.grouping'])
     .config(function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.when('', '/');
 
@@ -17,8 +17,8 @@ angular.module('app', ['ui.router'])
             })
             .state('data', {
                 url: '/data',
-                templateUrl: './views/data.html'
-                    // controller: './js/controller/dataCtrl.js'
+                templateUrl: './views/data.html',
+                controller: 'dataCtrl'
             })
             .state('location', {
                 url: 'location',
