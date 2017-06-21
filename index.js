@@ -11,14 +11,13 @@ const app = express();
 
 const port = 3000;
 
-massive({
-    host: config.host,
-    port: 5432,
-    database: config.database,
-    user: config.user,
-    password: config.password
-}).then(db => {
+const controller = require('./server/patient_visit_ctrl.js');
+const controllerUser = require('./server/user_ctrl.js');
+
+massive(config.url).then(db => {
     app.set('db', db)
+}).catch((err) => {
+    console.log(err)
 })
 
 app.use(bodyParser.json());

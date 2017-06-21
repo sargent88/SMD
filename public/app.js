@@ -18,6 +18,7 @@ angular.module('app', ['ui.router'])
             .state('data', {
                 url: '/data',
                 templateUrl: './views/data.html'
+                    // controller: './js/controller/dataCtrl.js'
             })
             .state('location', {
                 url: 'location',
