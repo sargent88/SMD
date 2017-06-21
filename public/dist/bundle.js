@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pinning', 'ui.grid.selection', 'ui.grid.moveColumns', 'ui.grid.exporter', 'ui.grid.importer', 'ui.grid.grouping']).config(function ($stateProvider, $urlRouterProvider) {
+angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pinning', 'ui.grid.selection', 'ui.grid.moveColumns', 'ui.grid.exporter', 'ui.grid.importer', 'ui.grid.grouping', 'ui.grid.infiniteScroll', 'ui.grid.expandable']).config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('', '/');
 
     $stateProvider.state('home', {
@@ -9,9 +9,9 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
     }).state('users', {
         url: '/users',
         templateUrl: './views/users.html'
-    }).state('client', {
-        url: '/client',
-        templateUrl: './views/client.html'
+    }).state('patient', {
+        url: '/patient',
+        templateUrl: './views/addPatient.html'
     }).state('data', {
         url: '/data',
         templateUrl: './views/data.html',
@@ -21,22 +21,83 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
         templateUrl: './views/location.html'
     });
 });
-"use strict";
+'use strict';
+
+angular.module('app').controller('addPatientCtrl', function ($scope, addPatientSrv) {
+    $scope.submitPatient = function (patient) {
+        addPatientSrv.addPatient(patient).then(function (response) {
+            if (!response) {
+                alert('Try Again');
+            }
+            $state.go('home');
+        });
+    };
+});
 "use strict";
 'use strict';
 
 angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, dataSrv) {
 
+    var gridApi;
+
     $scope.gridOptions = {
-        enableFiltering: true
+        enableCellEditOnFocus: true,
+        enableColumnResizing: true,
+        enableFiltering: true,
+        enableGridMenu: true,
+        infiniteScrollRowsFromEnd: 25,
+        infiniteScrollUp: true,
+        infiniteScrollDown: true,
+        onRegisterApi: function onRegisterApi(registeredApi) {
+            gridApi = registeredApi;
+        }
     };
     $scope.receivePatients = function () {
         dataSrv.getPatients().then(function (response) {
-            console.log(response);
             $scope.gridOptions.data = response.data;
         });
     };
     $scope.receivePatients();
+
+    $scope.toggleFilterRow = function () {
+        $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
+        gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+    };
+
+    $scope.callsPending = 0;
+
+    var i = 0;
+    $scope.refreshData = function () {
+        $scope.myData = [];
+
+        var start = new Date();
+        var sec = $interval(function () {
+            $scope.callsPending++;
+
+            $http.get('/api/getPatients').success(function (data) {
+                $scope.callsPending--;
+
+                data.forEach(function (row) {
+                    row.id = i;
+                    i++;
+                    row.registered = new Date(row.registered);
+                    $scope.myData.push(row);
+                });
+            }).error(function () {
+                $scope.callsPending--;
+            });
+        }, 200, 10);
+
+        var timeout = $timeout(function () {
+            $interval.cancel(sec);
+            $scope.left = '';
+        }, 2000);
+
+        $scope.$on('$destroy', function () {
+            $timeout.cancel(timeout);
+            $interval.cancel(sec);
+        });
+    };
 });
 'use strict';
 
@@ -44,6 +105,17 @@ angular.module('app').controller('mainCtrl', function ($scope, mainSrv) {
     $scope.weather = mainSrv.weather;
 });
 "use strict";
+'use strict';
+
+angular.module('app').service('addPatientSrv', function ($http) {
+    this.addPatient = function (patient) {
+        return $http({
+            url: '/api/addPatient',
+            method: 'POST',
+            data: patient
+        });
+    };
+});
 "use strict";
 'use strict';
 
