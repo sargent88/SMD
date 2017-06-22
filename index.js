@@ -110,6 +110,7 @@ app.get('/auth/logout', function(req, res) {
 })
 
 app.get('/api/getPatients', controller.getPatients);
+app.get('/api/getVisits/:id', controller.getVisits);
 app.post('/api/appPatient', function(req, res) {
     console.log(req.body)
 });

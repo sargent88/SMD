@@ -50,14 +50,28 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
         infiniteScrollDown: true,
         onRegisterApi: function onRegisterApi(registeredApi) {
             gridApi = registeredApi;
-        }
+        },
+        enableRowSelection: true,
+        expandableRowTemplate: './views/expandableRow.html',
+        expandableRowHeight: 150
     };
     $scope.receivePatients = function () {
         dataSrv.getPatients().then(function (response) {
             $scope.gridOptions.data = response.data;
+            for (var i = 0; i < response.data.length; i++) {
+                $scope.receiveVisits(response.data[i].id, i);
+            }
         });
     };
     $scope.receivePatients();
+
+    $scope.receiveVisits = function (id, i) {
+        dataSrv.getVisits(id).then(function (response) {
+            $scope.gridOptions.data[i].subGridOptions = {
+                data: response.data
+            };
+        });
+    };
 
     $scope.toggleFilterRow = function () {
         $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
@@ -124,6 +138,11 @@ angular.module('app').service('dataSrv', function ($http) {
     this.getPatients = function () {
         return $http({
             url: '/api/getPatients',
+            method: 'GET'
+        });
+    }, this.getVisits = function (id) {
+        return $http({
+            url: '/api/getVisits/' + id,
             method: 'GET'
         });
     };

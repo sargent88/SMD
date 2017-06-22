@@ -12,14 +12,28 @@ angular.module('app').controller('dataCtrl', function($scope, $http, $timeout, $
         infiniteScrollDown: true,
         onRegisterApi: function onRegisterApi(registeredApi) {
             gridApi = registeredApi;
-        }
+        },
+        enableRowSelection: true,
+        expandableRowTemplate: './views/expandableRow.html',
+        expandableRowHeight: 150
     };
     $scope.receivePatients = () => {
         dataSrv.getPatients().then((response) => {
             $scope.gridOptions.data = response.data;
+            for (var i = 0; i < response.data.length; i++) {
+                $scope.receiveVisits(response.data[i].id, i)
+            }
         })
     }
     $scope.receivePatients();
+
+    $scope.receiveVisits = (id, i) => {
+        dataSrv.getVisits(id).then((response) => {
+            $scope.gridOptions.data[i].subGridOptions = {
+                data: response.data
+            };
+        })
+    }
 
     $scope.toggleFilterRow = function() {
         $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
