@@ -21,18 +21,6 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
         templateUrl: './views/location.html'
     });
 });
-'use strict';
-
-angular.module('app').controller('addPatientCtrl', function ($scope, addPatientSrv) {
-    $scope.submitPatient = function (patient) {
-        addPatientSrv.addPatient(patient).then(function (response) {
-            if (!response) {
-                alert('Try Again');
-            }
-            $state.go('home');
-        });
-    };
-});
 "use strict";
 'use strict';
 
@@ -119,17 +107,6 @@ angular.module('app').controller('mainCtrl', function ($scope, mainSrv) {
     $scope.weather = mainSrv.weather;
 });
 "use strict";
-'use strict';
-
-angular.module('app').service('addPatientSrv', function ($http) {
-    this.addPatient = function (patient) {
-        return $http({
-            url: '/api/addPatient',
-            method: 'POST',
-            data: patient
-        });
-    };
-});
 "use strict";
 'use strict';
 
@@ -144,6 +121,36 @@ angular.module('app').service('dataSrv', function ($http) {
         return $http({
             url: '/api/getVisits/' + id,
             method: 'GET'
+        });
+    }, this.addNewPatient = function () {
+        return $http({
+            url: '/api/addNewPatient',
+            method: 'POST'
+        });
+    }, this.addNewVisit = function (id) {
+        return $http({
+            url: '/api/addNewVisit/' + id,
+            method: 'POST'
+        });
+    }, this.changePatient = function (id) {
+        return $http({
+            url: '/api/updatePatient/' + id,
+            method: 'PUT'
+        });
+    }, this.changeVisit = function (id) {
+        return $http({
+            url: '/api/updateVisit/' + id,
+            method: 'PUT'
+        });
+    }, this.removePatient = function (id) {
+        return $http({
+            url: 'api/deletePatient/' + id,
+            method: 'DELETE'
+        });
+    }, this.removeVisit = function (id) {
+        return $http({
+            url: 'api/deleteVisit/' + id,
+            method: 'DELETE'
         });
     };
 });
@@ -161,4 +168,5 @@ angular.module('app').service('mainSrv', function ($http) {
         });
     };
 });
+"use strict";
 //# sourceMappingURL=bundle.js.map

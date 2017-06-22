@@ -111,9 +111,12 @@ app.get('/auth/logout', function(req, res) {
 
 app.get('/api/getPatients', controller.getPatients);
 app.get('/api/getVisits/:id', controller.getVisits);
-app.post('/api/appPatient', function(req, res) {
-    console.log(req.body)
-});
+app.post('/api/addNewPatient', controller.addNewPatient);
+app.post('/api/addNewVisit/:id', controller.addNewVisit);
+app.put('/api/updatePatient/:id', controller.changePatient);
+app.put('/api/updateVisit/:id', controller.changeVisit);
+app.delete('/api/deletePatient/:id', controller.removePatient);
+app.delete('/api/deleteVisit/:id', controller.removeVisit);
 
 app.listen(3000, function() {
     console.log('Connected on port', port)

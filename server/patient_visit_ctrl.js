@@ -8,25 +8,78 @@ module.exports = {
         })
     },
     getVisits: function(req, res) {
-            req.app.get('db').joinPatientToVisit([req.params.id]).then(function(response) {
-                response.map(e => {
-                    e.date = e.date.toString().substring(4, 15)
-                })
-                res.send(response)
+        req.app.get('db').joinPatientToVisit([req.params.id]).then(function(response) {
+            response.map(e => {
+                e.date = e.date.toString().substring(4, 15)
             })
-        }
-        // addNewPatient: function(req, res) {
-        //     const add = [
-        //         req.body.firstname,
-        //         req.body.lastname,
-        //         req.body.email,
-        //         req.body.phone_num,
-        //         req.body.dob,
-        //         req.body.gender
-        //     ];
-        //     console.log(add)
-        //     req.app.get('db').addPatient(add).then(function(response) {
-        //         res.status(200).send('Added')
-        //     })
-        // }
+            res.send(response)
+        })
+    },
+    addNewPatient: function(req, res) {
+        const addP = [
+            req.body.firstname,
+            req.body.lastname,
+            req.body.email,
+            req.body.phone_num,
+            req.body.dob,
+            req.body.gender
+        ];
+        // console.log(addP)
+        req.app.get('db').addPatient(addP).then(function(response) {
+            res.status(200).send('Patient Added')
+        })
+    },
+    addNewVisit: function(req, res) {
+        const addV = [
+            req.params.id,
+            req.body.date,
+            req.body.area_hurt,
+            req.body.reason,
+            req.body.prescription,
+            req.body.followup,
+            req.body.notes
+        ];
+        // console.log(addV)
+        req.app.get('db').addVisit(addV).then(function(response) {
+            res.status(200).send('Visit Added')
+        })
+    },
+    changePatient: function(req, res) {
+        const updateP = [
+            req.body.firstname,
+            req.body.lastname,
+            req.body.email,
+            req.body.phone_num,
+            req.body.dob,
+            req.body.gender,
+            req.params.id
+        ];
+        req.app.get('db').updatePatient(updateP).then(function(response) {
+            res.status(200).send('Patient Updated')
+        })
+    },
+    changeVisit: function(req, res) {
+        const updateV = [
+            req.body.date,
+            req.body.area_hurt,
+            req.body.reason,
+            req.body.prescription,
+            req.body.followup,
+            req.body.notes,
+            req.params.id
+        ];
+        req.app.get('db').updateVisit(updateV).then(function(response) {
+            res.status(200).send('Visit Updated')
+        })
+    },
+    removePatient: function(req, res) {
+        req.app.get('db').deletePatient([req.params.id]).then(function(response) {
+            res.status(200).send('Patient Removed')
+        })
+    },
+    removeVisit: function(req, res) {
+        req.app.get('db').deleteVisit([req.params.id]).then(function(response) {
+            res.status(200).send('Visit Removed')
+        })
+    }
 }

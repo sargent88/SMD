@@ -1,7 +1,9 @@
 <h1>Data Tabel</h1>
 <div class="table">
     <button id="filterToggle" type="button" class="btn btn-success" ng-click="toggleFilterRow()">Toggle Filter</button>
-    <button id="refreshButton" type="button" class="btn btn-success" ng-click="refreshData()">Refresh Data</button> <strong>Calls Pending:</strong> <span ng-bind="callsPending"></span>
+    <button id="refreshButton" type="button" class="btn btn-success" ng-click="refreshData()">Refresh Data</button>
+    <button type="button" id="addData" class="btn btn-success" ng-click="addData()">Add Data</button>
+    <strong>Calls Pending:</strong> <span ng-bind="callsPending"></span>
     <br>
     <br>
     <strong>{{ myData.length }} rows</strong>
