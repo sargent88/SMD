@@ -16,43 +16,24 @@ module.exports = {
         })
     },
     addNewPatient: function(req, res) {
-        const addP = [
-            req.body.firstname,
-            req.body.lastname,
-            req.body.email,
-            req.body.phone_num,
-            req.body.dob,
-            req.body.gender
-        ];
         // console.log(addP)
-        req.app.get('db').addPatient(addP).then(function(response) {
-            res.status(200).send('Patient Added')
+        req.app.get('db').addPatient().then(function(response) {
+            res.status(200).send(response)
         })
     },
     addNewVisit: function(req, res) {
-        const addV = [
-            req.params.id,
-            req.body.date,
-            req.body.area_hurt,
-            req.body.reason,
-            req.body.prescription,
-            req.body.followup,
-            req.body.notes
-        ];
         // console.log(addV)
-        req.app.get('db').addVisit(addV).then(function(response) {
-            res.status(200).send('Visit Added')
+        req.app.get('db').addVisit([+req.params.id, new Date().toISOString()]).then(function(response) {
+            res.status(200).send(response)
         })
     },
     changePatient: function(req, res) {
-        const updateP = [
+        const updateP = [+req.body.id,
             req.body.firstname,
             req.body.lastname,
-            req.body.email,
-            req.body.phone_num,
+            req.body.email, +req.body.phone_num,
             req.body.dob,
-            req.body.gender,
-            req.params.id
+            req.body.gender
         ];
         req.app.get('db').updatePatient(updateP).then(function(response) {
             res.status(200).send('Patient Updated')

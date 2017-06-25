@@ -1,2 +1,4 @@
-select visit.date, visit.area_hurt, visit.reason, visit.prescription, visit.followup, visit.notes from visit
-where visit.patient_id=$1
+select visit_id, date, area_hurt, reason, prescription, followup, notes
+from visit
+where patient_id=$1
+order by visit_id

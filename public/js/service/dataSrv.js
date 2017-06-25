@@ -24,15 +24,16 @@ angular.module('app').service('dataSrv', function($http) {
                 method: 'POST'
             })
         },
-        this.changePatient = (id) => {
+        this.changePatient = (rowEntity) => {
             return $http({
-                url: `/api/updatePatient/${id}`,
-                method: 'PUT'
+                url: `/api/updatePatient`,
+                method: 'PUT',
+                data: rowEntity
             })
         },
-        this.changeVisit = (id) => {
+        this.changeVisit = (visit_id) => {
             return $http({
-                url: `/api/updateVisit/${id}`,
+                url: `/api/updateVisit/${visit_id}`,
                 method: 'PUT'
             })
         },
@@ -42,9 +43,9 @@ angular.module('app').service('dataSrv', function($http) {
                 method: 'DELETE'
             })
         },
-        this.removeVisit = (id) => {
+        this.removeVisit = (visit_id) => {
             return $http({
-                url: `api/deleteVisit/${id}`,
+                url: `api/deleteVisit/${visit_id}`,
                 method: 'DELETE'
             })
         }

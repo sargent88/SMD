@@ -113,10 +113,10 @@ app.get('/api/getPatients', controller.getPatients);
 app.get('/api/getVisits/:id', controller.getVisits);
 app.post('/api/addNewPatient', controller.addNewPatient);
 app.post('/api/addNewVisit/:id', controller.addNewVisit);
-app.put('/api/updatePatient/:id', controller.changePatient);
-app.put('/api/updateVisit/:id', controller.changeVisit);
+app.put('/api/updatePatient', controller.changePatient);
+app.put('/api/updateVisit/:visit_id', controller.changeVisit);
 app.delete('/api/deletePatient/:id', controller.removePatient);
-app.delete('/api/deleteVisit/:id', controller.removeVisit);
+app.delete('/api/deleteVisit/:visit_id', controller.removeVisit);
 
 app.listen(3000, function() {
     console.log('Connected on port', port)

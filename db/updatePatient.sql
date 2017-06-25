@@ -1,3 +1,3 @@
 UPDATE patient
-set firstname=$1, lastname=$2, email=$3, phone_num=$4, dob=$5, gender=$5
-where id=$6;
+set firstname=$2, lastname=$3, email=$4, phone_num=$5, dob=$6, gender=$7
+where id=$1;

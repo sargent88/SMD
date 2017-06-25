@@ -1,2 +1,3 @@
 SELECT *
-FROM patient;
+FROM patient
+order by id;

@@ -28,6 +28,29 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
 
     var gridApi;
 
+    $scope.selectedArray = [];
+    console.log($scope.selectedArray);
+    // $scope.row.entity.subGridOptions = {
+    //     enableCellEditOnFocus: true,
+    //     enableColumnResizing: true,
+    //     enableFiltering: true,
+    //     enableGridMenu: true,
+    //     infiniteScrollRowsFromEnd: 25,
+    //     infiniteScrollUp: true,
+    //     infiniteScrollDown: true,
+    //     enableRowSelection: true,
+    //     multiSelect: false,
+    //     onRegisterApi: function(gridApi) {
+    //         let subgridApi = gridApi;
+    //         subgridApi.selection.on.rowSelectionChanged($scope, function(row) {
+    //             console.log("inner: ", row)
+    //             if (row.isSelected) {
+    //                 $scope.selectedArray = [row.entity.id]
+    //             }
+    //         })
+    //     }
+    // }
+
     $scope.gridOptions = {
         enableCellEditOnFocus: true,
         enableColumnResizing: true,
@@ -36,13 +59,33 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
         infiniteScrollRowsFromEnd: 25,
         infiniteScrollUp: true,
         infiniteScrollDown: true,
-        onRegisterApi: function onRegisterApi(registeredApi) {
-            gridApi = registeredApi;
-        },
         enableRowSelection: true,
+        multiSelect: false,
         expandableRowTemplate: './views/expandableRow.html',
-        expandableRowHeight: 150
+        expandableRowHeight: 150,
+        onRegisterApi: function onRegisterApi(gridApi) {
+            gridApi = gridApi;
+            gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+                console.log("outter: ", row);
+                if (row.isSelected) {
+                    $scope.selectedArray = [row.entity.id];
+                }
+            });
+            gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
+                console.log(rowEntity, 'row');
+                console.log(colDef, 'your');
+                console.log(newValue, 'boat');
+                console.log(oldValue, 'ok');
+                dataSrv.changePatient(rowEntity);
+            });
+        }
+
     };
+
+    $scope.test = function () {
+        console.log(document.getElementsByClassName('ui-grid-row-selected'));
+    };
+
     $scope.receivePatients = function () {
         dataSrv.getPatients().then(function (response) {
             $scope.gridOptions.data = response.data;
@@ -55,50 +98,42 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
 
     $scope.receiveVisits = function (id, i) {
         dataSrv.getVisits(id).then(function (response) {
+            // response.data.map(e => {
+            //     e['delete?'] = 'x'
+            // })
             $scope.gridOptions.data[i].subGridOptions = {
                 data: response.data
             };
         });
     };
 
+    // const deleteCell = document.getElementsByClassName('ui-grid-coluiGrid-0093');
+    // const deleteVisitFn = () => {
+    //     alert('This works')
+    // }
+    // console.log(deleteCell)
+    // deleteCell.map(e => {
+    //     e.addEventListener('click', deleteVisitFn)
+    // })
+
+    $scope.addPatient = function () {
+        dataSrv.addNewPatient().then(function (response) {});
+        $scope.receivePatients();
+    };
+
+    $scope.addVisit = function (id) {
+        dataSrv.addNewVisit(id[0]).then(function (response) {});
+        $scope.receivePatients();
+    };
+
+    $scope.removePatient = function (id) {
+        dataSrv.removePatient(id[0]).then(function (response) {});
+        $scope.receivePatients();
+    };
+
     $scope.toggleFilterRow = function () {
         $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
         gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-    };
-
-    $scope.callsPending = 0;
-
-    var i = 0;
-    $scope.refreshData = function () {
-        $scope.myData = [];
-
-        var start = new Date();
-        var sec = $interval(function () {
-            $scope.callsPending++;
-
-            $http.get('/api/getPatients').success(function (data) {
-                $scope.callsPending--;
-
-                data.forEach(function (row) {
-                    row.id = i;
-                    i++;
-                    row.registered = new Date(row.registered);
-                    $scope.myData.push(row);
-                });
-            }).error(function () {
-                $scope.callsPending--;
-            });
-        }, 200, 10);
-
-        var timeout = $timeout(function () {
-            $interval.cancel(sec);
-            $scope.left = '';
-        }, 2000);
-
-        $scope.$on('$destroy', function () {
-            $timeout.cancel(timeout);
-            $interval.cancel(sec);
-        });
     };
 });
 'use strict';
@@ -132,14 +167,15 @@ angular.module('app').service('dataSrv', function ($http) {
             url: '/api/addNewVisit/' + id,
             method: 'POST'
         });
-    }, this.changePatient = function (id) {
+    }, this.changePatient = function (rowEntity) {
         return $http({
-            url: '/api/updatePatient/' + id,
-            method: 'PUT'
+            url: '/api/updatePatient',
+            method: 'PUT',
+            data: rowEntity
         });
-    }, this.changeVisit = function (id) {
+    }, this.changeVisit = function (visit_id) {
         return $http({
-            url: '/api/updateVisit/' + id,
+            url: '/api/updateVisit/' + visit_id,
             method: 'PUT'
         });
     }, this.removePatient = function (id) {
@@ -147,9 +183,9 @@ angular.module('app').service('dataSrv', function ($http) {
             url: 'api/deletePatient/' + id,
             method: 'DELETE'
         });
-    }, this.removeVisit = function (id) {
+    }, this.removeVisit = function (visit_id) {
         return $http({
-            url: 'api/deleteVisit/' + id,
+            url: 'api/deleteVisit/' + visit_id,
             method: 'DELETE'
         });
     };
