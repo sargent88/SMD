@@ -69,7 +69,24 @@ angular.module('app').controller('usersCtrl', function($scope, $http, $timeout, 
 
             $scope.receiveUsers = () => {
                 usersSrv.getUsers().then((response) => {
-                    $scope.gridOptions.data = response.data;
+                    $scope.gridOptions = {
+                        data: response.data,
+                        columnDefs: [
+                            { name: 'id', enableCellEdit: false },
+                            { name: 'username' },
+                            {
+                                name: 'type',
+                                editableCellTemplate: 'ui-grid/dropdownEditor',
+                                editDropdownValueLabel: 'type',
+                                editDropdownOptionsArray: [
+                                    { id: 1, type: 'a' },
+                                    { id: 2, type: 'b' },
+                                    { id: 3, type: 'c' },
+                                    { id: 4, type: 'd' }
+                                ]
+                            }
+                        ]
+                    };
                 })
             }
             $scope.receiveUsers();

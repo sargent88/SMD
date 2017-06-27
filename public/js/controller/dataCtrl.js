@@ -55,6 +55,7 @@ angular.module('app').controller('dataCtrl', function($scope, $http, $timeout, $
                 })
             }
             $scope.receivePatients();
+
             $scope.test = () => {
                 alert('ehy')
                 console.log(document.getElementsByClassName("'ui-grid-row-selected': row.isSelected"))
@@ -79,7 +80,7 @@ angular.module('app').controller('dataCtrl', function($scope, $http, $timeout, $
                         columnDefs: [
                             { name: 'id', cellTemplate: `<button class="btn primary" ng-click="grid.appScope.clickMeSub()">Click Me</button>` },
 
-                            { name: 'visit_id' },
+                            { name: 'visit_id', enableCellEdit: false },
                             { name: 'date' },
                             { name: 'area_hurt' },
                             { name: 'reason' },

@@ -94,6 +94,7 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
                 });
             };
             $scope.receivePatients();
+
             $scope.test = function () {
                 alert('ehy');
                 console.log(document.getElementsByClassName("'ui-grid-row-selected': row.isSelected"));
@@ -115,7 +116,7 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
 
                     $scope.gridOptions.data[i].subGridOptions = {
                         appScopeProvider: $scope.subGridScope,
-                        columnDefs: [{ name: 'id', cellTemplate: '<button class="btn primary" ng-click="grid.appScope.clickMeSub()">Click Me</button>' }, { name: 'visit_id' }, { name: 'date' }, { name: 'area_hurt' }, { name: 'reason' }, { name: 'prescription' }, { name: 'followup' }, { name: 'notes' }],
+                        columnDefs: [{ name: 'id', cellTemplate: '<button class="btn primary" ng-click="grid.appScope.clickMeSub()">Click Me</button>' }, { name: 'visit_id', enableCellEdit: false }, { name: 'date' }, { name: 'area_hurt' }, { name: 'reason' }, { name: 'prescription' }, { name: 'followup' }, { name: 'notes' }],
                         data: response.data
                     };
                 });
@@ -278,7 +279,15 @@ angular.module('app').controller('usersCtrl', function ($scope, $http, $timeout,
 
             $scope.receiveUsers = function () {
                 usersSrv.getUsers().then(function (response) {
-                    $scope.gridOptions.data = response.data;
+                    $scope.gridOptions = {
+                        data: response.data,
+                        columnDefs: [{ name: 'id', enableCellEdit: false }, { name: 'username' }, {
+                            name: 'type',
+                            editableCellTemplate: 'ui-grid/dropdownEditor',
+                            editDropdownValueLabel: 'type',
+                            editDropdownOptionsArray: [{ id: 1, type: 'a' }, { id: 2, type: 'b' }, { id: 3, type: 'c' }, { id: 4, type: 'd' }]
+                        }]
+                    };
                 });
             };
             $scope.receiveUsers();
