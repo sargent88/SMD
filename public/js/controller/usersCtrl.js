@@ -1,4 +1,37 @@
-angular.module('app').controller('usersCtrl', function($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, usersSrv) {
+angular.module('app').controller('usersCtrl', function($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, usersSrv, $state) {
+
+
+    $scope.addUser = (user) => {
+        usersSrv.addNewUser(user).then((response) => {
+            if (response.data = []) {
+                $state.go('home')
+            } else {
+                alert('Try again.')
+            }
+        })
+
+    }
+
+    $scope.changePassword = (user) => {
+        usersSrv.updatePassword(user).then((response) => {
+            if (response.data = []) {
+                $state.go('home')
+            } else {
+                alert('Try again.')
+            }
+        })
+    }
+
+    $scope.changeUsername = (user) => {
+        usersSrv.updateUsername(user).then((response) => {
+            if (response.data = []) {
+                $state.go('home')
+            } else {
+                alert('Try again.')
+            }
+        })
+    }
+
 
     var gridApi;
 

@@ -10,9 +10,6 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
         url: '/users',
         templateUrl: './views/users.html',
         controller: 'usersCtrl'
-    }).state('patient', {
-        url: '/patient',
-        templateUrl: './views/addPatient.html'
     }).state('data', {
         url: '/data',
         templateUrl: './views/data.html',
@@ -22,10 +19,19 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
         templateUrl: './views/location.html'
     }).state('register', {
         url: '/register',
-        templateUrl: './views/register.html'
+        templateUrl: './views/register.html',
+        controller: 'usersCtrl'
     }).state('login', {
         url: '/login',
         templateUrl: './views/login.html'
+    }).state('change-password', {
+        url: '/change-password',
+        templateUrl: './views/changePassword.html',
+        controller: 'usersCtrl'
+    }).state('change-username', {
+        url: '/change-username',
+        templateUrl: './views/changeUsername.html',
+        controller: 'usersCtrl'
     });
 });
 "use strict";
@@ -204,7 +210,37 @@ angular.module('app').controller('mainCtrl', function ($scope, mainSrv) {
 });
 'use strict';
 
-angular.module('app').controller('usersCtrl', function ($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, usersSrv) {
+angular.module('app').controller('usersCtrl', function ($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, usersSrv, $state) {
+
+    $scope.addUser = function (user) {
+        usersSrv.addNewUser(user).then(function (response) {
+            if (response.data = []) {
+                $state.go('home');
+            } else {
+                alert('Try again.');
+            }
+        });
+    };
+
+    $scope.changePassword = function (user) {
+        usersSrv.updatePassword(user).then(function (response) {
+            if (response.data = []) {
+                $state.go('home');
+            } else {
+                alert('Try again.');
+            }
+        });
+    };
+
+    $scope.changeUsername = function (user) {
+        usersSrv.updateUsername(user).then(function (response) {
+            if (response.data = []) {
+                $state.go('home');
+            } else {
+                alert('Try again.');
+            }
+        });
+    };
 
     var gridApi;
 
@@ -300,12 +336,12 @@ angular.module('app').service('dataSrv', function ($http) {
         });
     }, this.removePatient = function (id) {
         return $http({
-            url: 'api/deletePatient/' + id,
+            url: '/api/deletePatient/' + id,
             method: 'DELETE'
         });
     }, this.removeVisit = function (visit_id) {
         return $http({
-            url: 'api/deleteVisit/' + visit_id,
+            url: '/api/deleteVisit/' + visit_id,
             method: 'DELETE'
         });
     };
@@ -335,8 +371,26 @@ angular.module('app').service('usersSrv', function ($http) {
         });
     }, this.removeUser = function (id) {
         return $http({
-            url: 'api/deleteUser/' + id,
+            url: '/api/deleteUser/' + id,
             method: 'DELETE'
+        });
+    }, this.addNewUser = function (user) {
+        return $http({
+            url: '/api/addUser',
+            method: 'POST',
+            data: user
+        });
+    }, this.updatePassword = function (user) {
+        return $http({
+            url: '/api/updatePassword',
+            method: 'PUT',
+            data: user
+        });
+    }, this.updateUsername = function (user) {
+        return $http({
+            url: '/api/updateUsername',
+            method: 'PUT',
+            data: user
         });
     };
 });

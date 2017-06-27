@@ -8,8 +8,29 @@ angular.module('app').service('usersSrv', function($http) {
         },
         this.removeUser = (id) => {
             return $http({
-                url: `api/deleteUser/${id}`,
+                url: `/api/deleteUser/${id}`,
                 method: 'DELETE'
+            })
+        },
+        this.addNewUser = (user) => {
+            return $http({
+                url: '/api/addUser',
+                method: 'POST',
+                data: user
+            })
+        },
+        this.updatePassword = (user) => {
+            return $http({
+                url: '/api/updatePassword',
+                method: 'PUT',
+                data: user
+            })
+        },
+        this.updateUsername = (user) => {
+            return $http({
+                url: '/api/updateUsername',
+                method: 'PUT',
+                data: user
             })
         }
 

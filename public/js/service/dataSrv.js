@@ -40,13 +40,13 @@ angular.module('app').service('dataSrv', function($http) {
         },
         this.removePatient = (id) => {
             return $http({
-                url: `api/deletePatient/${id}`,
+                url: `/api/deletePatient/${id}`,
                 method: 'DELETE'
             })
         },
         this.removeVisit = (visit_id) => {
             return $http({
-                url: `api/deleteVisit/${visit_id}`,
+                url: `/api/deleteVisit/${visit_id}`,
                 method: 'DELETE'
             })
         }

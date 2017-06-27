@@ -120,6 +120,9 @@ app.delete('/api/deleteVisit/:visit_id', controller.removeVisit);
 
 app.get('/api/getUsers', controllerUser.getUsers);
 app.delete('/api/deleteUser/:id', controllerUser.removeUser);
+app.post('/api/addUser', controllerUser.addNewUser);
+app.put('/api/updatePassword', controllerUser.updatePassword);
+app.put('/api/updateUsername', controllerUser.updateUsername);
 
 
 app.listen(3000, function() {

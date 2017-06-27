@@ -1,3 +1,3 @@
 INSERT INTO users
-(username, password, type, email)
-VALUES($1, $2, 'd', $3);
+(username, email, password, type)
+VALUES($1, $2, $3, 'd');

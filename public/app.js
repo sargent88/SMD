@@ -12,10 +12,6 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
                 templateUrl: './views/users.html',
                 controller: 'usersCtrl'
             })
-            .state('patient', {
-                url: '/patient',
-                templateUrl: './views/addPatient.html'
-            })
             .state('data', {
                 url: '/data',
                 templateUrl: './views/data.html',
@@ -27,10 +23,21 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
             })
             .state('register', {
                 url: '/register',
-                templateUrl: './views/register.html'
+                templateUrl: './views/register.html',
+                controller: 'usersCtrl'
             })
             .state('login', {
                 url: '/login',
                 templateUrl: './views/login.html'
+            })
+            .state('change-password', {
+                url: '/change-password',
+                templateUrl: './views/changePassword.html',
+                controller: 'usersCtrl'
+            })
+            .state('change-username', {
+                url: '/change-username',
+                templateUrl: './views/changeUsername.html',
+                controller: 'usersCtrl'
             })
     })
