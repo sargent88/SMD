@@ -4,10 +4,10 @@
     <button type="button" id="addData" class="btn btn-success" ng-click="addPatient()">Add Patient</button>
     <button type="button" id="addData" class="btn btn-success" ng-click="addVisit(selectedArray)">Add Visit</button>
     <button type="button" id="removeFirstRow" class="btn btn-success" ng-click="removePatient(selectedArray)">Remove Row</button>
-    <strong>Calls Pending:</strong> <span ng-bind="callsPending"></span>
+    <!--<strong>Calls Pending:</strong> <span ng-bind="callsPending"></span>-->
     <br>
     <br>
     <strong>{{ myData.length }} rows</strong>
     <br>
-    <div id="grid1" ui-grid="gridOptions" ui-grid-cellNav ui-grid-edit ui-grid-resize-columns ui-grid-pinning ui-grid-selection ui-grid-move-columns ui-grid-exporter ui-grid-grouping ui-grid-expandable class="grid"></div>
+    <div id="grid1" ui-grid="gridOptions" ui-grid-cellNav ui-grid-edit ui-grid-resize-columns ui-grid-pinning ui-grid-selection ui-grid-move-columns ui-grid-exporter ui-grid-grouping ui-grid-expandable ui-grid-infinite-scroll class="grid"></div>
 </div>

@@ -1,0 +1,14 @@
+<form name="adduser" novalidate>
+    <div id="name-group" class="form-group-lg">
+        <input type="text" ng-required="true" name="name" ng-model="username" ng-minlength="6" class="form-control" placeholder="User Name">
+    </div>
+    <div id="name-group" class="form-group-lg">
+        <input type="email" ng-required="true" name="email" ng-model="useremail" class="form-control" placeholder="Email">
+    </div>
+    <div id="name-group" class="form-group-lg">
+        <input type="password" ng-required="true" ng-model="userpassword" name="password" ng-minlength="5" class="form-control " placeholder="Password at least 6 character">
+    </div>
+    <div id="name-group" class="form-group-lg">
+        <button type="submit" ng-disabled="!adduser.$valid" ng-click="AddUser()" class="form-control btn btn-info">Register</button>
+    </div>
+</form>

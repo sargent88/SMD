@@ -31,10 +31,11 @@ angular.module('app').service('dataSrv', function($http) {
                 data: rowEntity
             })
         },
-        this.changeVisit = (visit_id) => {
+        this.changeVisit = () => {
             return $http({
-                url: `/api/updateVisit/${visit_id}`,
-                method: 'PUT'
+                url: `/api/updateVisit`,
+                method: 'PUT',
+                // data: 
             })
         },
         this.removePatient = (id) => {

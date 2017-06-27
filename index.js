@@ -118,6 +118,10 @@ app.put('/api/updateVisit/:visit_id', controller.changeVisit);
 app.delete('/api/deletePatient/:id', controller.removePatient);
 app.delete('/api/deleteVisit/:visit_id', controller.removeVisit);
 
+app.get('/api/getUsers', controllerUser.getUsers);
+app.delete('/api/deleteUser/:id', controllerUser.removeUser);
+
+
 app.listen(3000, function() {
     console.log('Connected on port', port)
 })

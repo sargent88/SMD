@@ -9,7 +9,8 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
             })
             .state('users', {
                 url: '/users',
-                templateUrl: './views/users.html'
+                templateUrl: './views/users.html',
+                controller: 'usersCtrl'
             })
             .state('patient', {
                 url: '/patient',
@@ -21,7 +22,15 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
                 controller: 'dataCtrl'
             })
             .state('location', {
-                url: 'location',
+                url: '/location',
                 templateUrl: './views/location.html'
+            })
+            .state('register', {
+                url: '/register',
+                templateUrl: './views/register.html'
+            })
+            .state('login', {
+                url: '/login',
+                templateUrl: './views/login.html'
             })
     })
