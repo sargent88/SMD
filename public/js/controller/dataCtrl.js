@@ -20,8 +20,9 @@ angular.module('app').controller('dataCtrl', function($scope, $http, $timeout, $
         expandableRowScope: {
             subGridVariable: 'subGridScopeVariable',
             clickMeSub: function(row) {
+                dataSrv.removeVisit(row.entity.visit_id);
                 alert(`Visit #${row.entity.visit_id} deleted`);
-                dataSrv.removeVisit(row.entity.visit_id)
+
             }
         },
         columnDefs: [
