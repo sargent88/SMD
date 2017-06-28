@@ -64,7 +64,7 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
             subGridVariable: 'subGridScopeVariable',
             clickMeSub: function clickMeSub(row) {
                 dataSrv.removeVisit(row.entity.visit_id);
-                alert('Visit #' + row.entity.visit_id + ' deleted');
+                alert('Visit #' + row.entity.visit_id + ' deleted') ? "" : location.reload();
             }
         },
         columnDefs: [{ name: 'id', displayName: 'ID', enableCellEdit: false, width: '5%' }, { name: 'firstname', displayName: 'First Name', width: '17%' }, { name: 'lastname', displayName: 'Last Name', width: '17%' }, { name: 'email', displayName: 'e-mail', width: '20%' }, { name: 'phone_num', displayName: 'Phone #', width: '12%' }, { name: 'dob', displayName: 'DOB' }, {

@@ -21,7 +21,7 @@ angular.module('app').controller('dataCtrl', function($scope, $http, $timeout, $
             subGridVariable: 'subGridScopeVariable',
             clickMeSub: function(row) {
                 dataSrv.removeVisit(row.entity.visit_id);
-                alert(`Visit #${row.entity.visit_id} deleted`);
+                alert(`Visit #${row.entity.visit_id} deleted`) ? "" : location.reload();
 
             }
         },
