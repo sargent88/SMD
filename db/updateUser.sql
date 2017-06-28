@@ -1,3 +1,3 @@
 UPDATE users
-SET type=$1
-where id=$2;
+SET type=$2, username=$3
+where id=$1;

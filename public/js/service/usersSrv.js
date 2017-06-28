@@ -32,6 +32,13 @@ angular.module('app').service('usersSrv', function($http) {
                 method: 'PUT',
                 data: user
             })
+        },
+        this.changeUsers = (rowEntity) => {
+            return $http({
+                url: `/api/updateUsers`,
+                method: 'PUT',
+                data: rowEntity
+            })
         }
 
 })

@@ -123,6 +123,7 @@ app.delete('/api/deleteUser/:id', controllerUser.removeUser);
 app.post('/api/addUser', controllerUser.addNewUser);
 app.put('/api/updatePassword', controllerUser.updatePassword);
 app.put('/api/updateUsername', controllerUser.updateUsername);
+app.put('/api/updateUsers', controllerUser.changeUsers);
 
 
 app.listen(3000, function() {

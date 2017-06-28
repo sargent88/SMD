@@ -14,9 +14,9 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
         url: '/data',
         templateUrl: './views/data.html',
         controller: 'dataCtrl'
-    }).state('location', {
-        url: '/location',
-        templateUrl: './views/location.html'
+    }).state('contact', {
+        url: '/contact',
+        templateUrl: './views/contact.html'
     }).state('register', {
         url: '/register',
         templateUrl: './views/register.html',
@@ -34,7 +34,12 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
         controller: 'usersCtrl'
     });
 });
-"use strict";
+'use strict';
+
+angular.module('app').constant('config', {
+    weatherAPI: '3c2c06ffa41e54040d66574f915f49cd',
+    weatherZipCode: 84150
+});
 'use strict';
 
 angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, dataSrv, $window) {
@@ -195,7 +200,12 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
 'use strict';
 
 angular.module('app').controller('mainCtrl', function ($scope, mainSrv) {
-    $scope.weather = mainSrv.weather;
+
+    //only have a limited amount of calls
+    // mainSrv.getWeather().then((res) => {
+    //     $scope.weather = res.data;
+    // })
+
 });
 'use strict';
 
@@ -250,20 +260,14 @@ angular.module('app').controller('usersCtrl', function ($scope, $http, $timeout,
             gridApi = gridApi;
 
             gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-                console.log("chart: ", row);
                 if (row.isSelected) {
                     $scope.selectArray = [row.entity.id];
-                    console.log(row.entity.id);
                 }
             });
 
-            // gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
-            //     console.log(rowEntity, 'you')
-            //     console.log(colDef, 'better')
-            //     console.log(newValue, 'work')
-            //     console.log(oldValue, 'man')
-            //     usersSrv.changePatient(rowEntity);
-            // })
+            gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
+                usersSrv.changeUsers(rowEntity);
+            });
 
             $scope.receiveUsers = function () {
                 usersSrv.getUsers().then(function (response) {
@@ -273,7 +277,7 @@ angular.module('app').controller('usersCtrl', function ($scope, $http, $timeout,
                             name: 'type',
                             editableCellTemplate: 'ui-grid/dropdownEditor',
                             editDropdownValueLabel: 'type',
-                            editDropdownOptionsArray: [{ id: 1, type: 'a' }, { id: 2, type: 'b' }, { id: 3, type: 'c' }, { id: 4, type: 'd' }]
+                            editDropdownOptionsArray: [{ id: 1, type: 1 }, { id: 2, type: 2 }, { id: 3, type: 3 }, { id: 4, type: 4 }]
                         }]
                     };
                 });
@@ -294,7 +298,6 @@ angular.module('app').controller('usersCtrl', function ($scope, $http, $timeout,
         $scope.receiveUsers();
     };
 });
-"use strict";
 'use strict';
 
 angular.module('app').service('dataSrv', function ($http) {
@@ -345,15 +348,13 @@ angular.module('app').service('dataSrv', function ($http) {
 });
 'use strict';
 
-angular.module('app').service('mainSrv', function ($http) {
-    var _this = this;
+angular.module('app').service('mainSrv', function ($http, config) {
 
-    var getWeather = function getWeather() {
+    this.getWeather = function () {
         return $http({
             method: 'get',
-            url: 'api.openweathermap.org/data/2.5/weather?zip=' + config.weatherZipCode + ',us&APPID=' + config.weatherAPI
-        }).then(function (res) {
-            _this.weather = res.data;
+            url: 'http://api.openweathermap.org/data/2.5/weather?zip=' + config.weatherZipCode + ',us&APPID=' + config.weatherAPI + '&units=imperial'
+
         });
     };
 });
@@ -388,6 +389,12 @@ angular.module('app').service('usersSrv', function ($http) {
             url: '/api/updateUsername',
             method: 'PUT',
             data: user
+        });
+    }, this.changeUsers = function (rowEntity) {
+        return $http({
+            url: '/api/updateUsers',
+            method: 'PUT',
+            data: rowEntity
         });
     };
 });

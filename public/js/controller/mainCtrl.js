@@ -1,3 +1,8 @@
 angular.module('app').controller('mainCtrl', function($scope, mainSrv) {
-    $scope.weather = mainSrv.weather
+
+    //only have a limited amount of calls
+    // mainSrv.getWeather().then((res) => {
+    //     $scope.weather = res.data;
+    // })
+
 })

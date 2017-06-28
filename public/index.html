@@ -8,25 +8,29 @@
     <title>Document</title>
     <link rel="stylesheet" href="./dist/styles.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.css" />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
 </head>
 
-<body>
+<body ng-controller="mainCtrl">
 
-    <div class="site-wrapper">
+    <div class="site-wrapper" ng-controller="mainCtrl">
         <header class="site-header" role="banner">
             <div class="container">
                 <nav class="site-nav">
                     <img ui-sref="home" src="" alt="wolf">
                     <a ui-sref="users">Users</a>
                     <a ui-sref="data">Data Set</a>
-                    <a ui-sref="location">Location</a>
                 </nav>
                 <nav class="login">
                     <button ui-sref="login">Login</button>
                     <button ui-sref="register">Register User</button>
                 </nav>
+                <nav class="weather">
+                    {{weather.name}} {{weather.main.temp.toFixed(0)}}&#8457;
+                    <br><img src="./img/{{weather.weather[0].icon}}.png" alt="weather">
 
+                </nav>
             </div>
         </header>
         <main class="site-main" role="main">
@@ -36,6 +40,12 @@
         </main>
     </div>
 
+    <foooter>
+        <nav class="map">
+            <a ui-sref="contact">Contact</a>
+
+        </nav>
+    </foooter>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
@@ -45,6 +55,7 @@
     <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
     <script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
     <script src="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
     <script src="dist/bundle.js"></script>
 
 

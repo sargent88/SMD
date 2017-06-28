@@ -36,5 +36,14 @@ module.exports = {
         req.app.get('db').updateUsername(newName).then(function(response) {
             res.status(200).send(response)
         })
+    },
+    changeUsers: function(req, res) {
+        const updateType = [+req.body.id,
+            req.body.type,
+            req.body.username
+        ];
+        req.app.get('db').updateUser(updateType).then(function(response) {
+            res.status(200).send('Patient Updated')
+        })
     }
 }

@@ -52,20 +52,14 @@ angular.module('app').controller('usersCtrl', function($scope, $http, $timeout, 
             gridApi = gridApi;
 
             gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-                console.log("chart: ", row)
                 if (row.isSelected) {
                     $scope.selectArray = [row.entity.id]
-                    console.log(row.entity.id)
                 }
             })
 
-            // gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
-            //     console.log(rowEntity, 'you')
-            //     console.log(colDef, 'better')
-            //     console.log(newValue, 'work')
-            //     console.log(oldValue, 'man')
-            //     usersSrv.changePatient(rowEntity);
-            // })
+            gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
+                usersSrv.changeUsers(rowEntity);
+            })
 
             $scope.receiveUsers = () => {
                 usersSrv.getUsers().then((response) => {
@@ -79,10 +73,10 @@ angular.module('app').controller('usersCtrl', function($scope, $http, $timeout, 
                                 editableCellTemplate: 'ui-grid/dropdownEditor',
                                 editDropdownValueLabel: 'type',
                                 editDropdownOptionsArray: [
-                                    { id: 1, type: 'a' },
-                                    { id: 2, type: 'b' },
-                                    { id: 3, type: 'c' },
-                                    { id: 4, type: 'd' }
+                                    { id: 1, type: 1 },
+                                    { id: 2, type: 2 },
+                                    { id: 3, type: 3 },
+                                    { id: 4, type: 4 }
                                 ]
                             }
                         ]

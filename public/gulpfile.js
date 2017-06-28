@@ -23,7 +23,7 @@ gulp.task('build-css', function() {
 })
 
 gulp.task('build-js', function() {
-    return gulp.src(['./app.js', './js/**/*.js'])
+    return gulp.src(['./app.js', './config.js', './js/**/*.js'])
         .pipe(sourcemaps.init())
         .pipe(print())
         .pipe(babel({ presets: ['es2015'] }))

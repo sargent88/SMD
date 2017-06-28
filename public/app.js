@@ -17,9 +17,9 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
                 templateUrl: './views/data.html',
                 controller: 'dataCtrl'
             })
-            .state('location', {
-                url: '/location',
-                templateUrl: './views/location.html'
+            .state('contact', {
+                url: '/contact',
+                templateUrl: './views/contact.html'
             })
             .state('register', {
                 url: '/register',
