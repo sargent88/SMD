@@ -45,12 +45,6 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
     // $scope.selectedSubArray = []
     console.log($scope.selectedArray);
 
-    // window.onclick = (event) => {
-    //     var test = document.getElementsByClassName('ui-grid-row')
-    //     console.log(test)
-    // }
-
-
     $scope.gridOptions = {
         enableCellEditOnFocus: true,
         enableColumnResizing: true,
@@ -64,8 +58,18 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
         expandableRowTemplate: './views/expandableRow.html',
         expandableRowHeight: 150,
         expandableRowScope: {
-            subGridVariable: 'subGridScopeVariable'
+            subGridVariable: 'subGridScopeVariable',
+            clickMeSub: function clickMeSub(row) {
+                alert('hi ' + row.entity.name);
+            }
         },
+        columnDefs: [{ name: 'id', displayName: 'ID', enableCellEdit: false, width: '5%' }, { name: 'firstname', displayName: 'First Name' }, { name: 'lastname', displayName: 'Last Name' }, { name: 'email', displayName: 'e-mail' }, { name: 'phone_num', displayName: 'Phone #' }, { name: 'dob', displayName: 'DOB' }, {
+            name: 'gender',
+            displayName: 'Gender',
+            editableCellTemplate: 'ui-grid/dropdownEditor',
+            editDropdownValueLabel: 'gender',
+            editDropdownOptionsArray: [{ id: 1, gender: 'male' }, { id: 2, gender: 'female' }]
+        }],
         onRegisterApi: function onRegisterApi(gridApi) {
             // console.log($scope.subGridVariable)
             gridApi = gridApi;
@@ -95,28 +99,20 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
             };
             $scope.receivePatients();
 
-            $scope.test = function () {
-                alert('ehy');
-                console.log(document.getElementsByClassName("'ui-grid-row-selected': row.isSelected"));
-            };
-
-            $scope.subGridScope = {
-                clickMeSub: function clickMeSub() {
-                    // console.log($event.target.parentElement.parentElement)
-                    console.log(this);
-                    // alert('hi', $event);
-                }
-            };
+            // $scope.subGridScope = {
+            //     clickMeSub: function() {
+            //         // console.log($event.target.parentElement.parentElement)
+            //         console.log(this)
+            //             // alert('hi', $event);
+            //     }
+            // };
 
             $scope.receiveVisits = function (id, i) {
                 dataSrv.getVisits(id).then(function (response) {
-                    // response.data.map(e => {
-                    //     e['delete?'] = 'x'
-                    // })
 
                     $scope.gridOptions.data[i].subGridOptions = {
                         appScopeProvider: $scope.subGridScope,
-                        columnDefs: [{ name: 'id', cellTemplate: '<button class="btn primary" ng-click="grid.appScope.clickMeSub()">Click Me</button>' }, { name: 'visit_id', enableCellEdit: false }, { name: 'date' }, { name: 'area_hurt' }, { name: 'reason' }, { name: 'prescription' }, { name: 'followup' }, { name: 'notes' }],
+                        columnDefs: [{ name: 'id', cellTemplate: '<button class="btn primary" ng-click="grid.appScope.clickMeSub(row)">Click Me</button>', width: '7%' }, { name: 'visit_id', displayName: 'Visit ID', enableCellEdit: false, width: '9%' }, { name: 'date', displayName: 'Date', width: '12%' }, { name: 'area_hurt', displayName: 'Area Hurt', width: '11%' }, { name: 'reason', displayName: 'Reason', width: '10%' }, { name: 'prescription', displayName: 'Prescription', width: '13%' }, { name: 'followup', displayName: 'Follow Up', width: '11%' }, { name: 'notes', displayName: 'Notes' }],
                         data: response.data
                     };
                 });
