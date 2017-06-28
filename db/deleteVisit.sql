@@ -1,2 +1,2 @@
-delete from patient
+delete from visit
 where visit_id=$1

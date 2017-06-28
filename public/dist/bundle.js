@@ -47,8 +47,6 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
     var gridApi;
 
     $scope.selectedArray = [];
-    // $scope.selectedSubArray = []
-    console.log($scope.selectedArray);
 
     $scope.gridOptions = {
         enableCellEditOnFocus: true,
@@ -65,7 +63,8 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
         expandableRowScope: {
             subGridVariable: 'subGridScopeVariable',
             clickMeSub: function clickMeSub(row) {
-                alert('hi ' + row.entity.name);
+                alert('Visit #' + row.entity.visit_id + ' deleted');
+                dataSrv.removeVisit(row.entity.visit_id);
             }
         },
         columnDefs: [{ name: 'id', displayName: 'ID', enableCellEdit: false, width: '5%' }, { name: 'firstname', displayName: 'First Name', width: '17%' }, { name: 'lastname', displayName: 'Last Name', width: '17%' }, { name: 'email', displayName: 'e-mail', width: '20%' }, { name: 'phone_num', displayName: 'Phone #', width: '12%' }, { name: 'dob', displayName: 'DOB' }, {
@@ -76,21 +75,15 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
             editDropdownOptionsArray: [{ id: 1, gender: 'male' }, { id: 2, gender: 'female' }]
         }],
         onRegisterApi: function onRegisterApi(gridApi) {
-            // console.log($scope.subGridVariable)
             gridApi = gridApi;
 
             gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-                // console.log("outter: ", row)
                 if (row.isSelected) {
                     $scope.selectedArray = [row.entity.id];
                 }
             });
 
             gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
-                console.log(rowEntity, 'row');
-                console.log(colDef, 'your');
-                console.log(newValue, 'boat');
-                console.log(oldValue, 'ok');
                 dataSrv.changePatient(rowEntity);
             });
 
@@ -109,73 +102,19 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
 
                     $scope.gridOptions.data[i].subGridOptions = {
                         appScopeProvider: $scope.subGridScope,
-                        columnDefs: [{ name: 'id', cellTemplate: '<button class="btn primary" ng-click="grid.appScope.clickMeSub(row)">Click Me</button>', width: '7%' }, { name: 'visit_id', displayName: 'Visit ID', enableCellEdit: false, width: '9%' }, { name: 'date', displayName: 'Date', width: '12%' }, { name: 'area_hurt', displayName: 'Area Hurt', width: '11%' }, { name: 'reason', displayName: 'Reason', width: '10%' }, { name: 'prescription', displayName: 'Prescription', width: '13%' }, { name: 'followup', displayName: 'Follow Up', width: '11%' }, { name: 'notes', displayName: 'Notes' }],
+                        onRegisterApi: function onRegisterApi(gridApi) {
+                            gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
+                                dataSrv.changeVisit(rowEntity);
+                            });
+                        },
+                        columnDefs: [{ name: 'Del', cellTemplate: '<button class="btn primary" ng-click="grid.appScope.clickMeSub(row)">Delete</button>', width: '7%' }, { name: 'visit_id', displayName: 'Visit ID', enableCellEdit: false, width: '9%' }, { name: 'date', displayName: 'Date', width: '12%' }, { name: 'area_hurt', displayName: 'Area Hurt', width: '11%' }, { name: 'reason', displayName: 'Reason', width: '10%' }, { name: 'prescription', displayName: 'Prescription', width: '13%' }, { name: 'followup', displayName: 'Follow Up', width: '11%' }, { name: 'notes', displayName: 'Notes' }],
                         data: response.data
                     };
                 });
             };
-
-            // gridApi.expandable.on.rowExpandedStateChanged($scope, function(row) {
-            //         if (row.isExpanded) {
-            //             row.entity.subGridOptions = {
-            //                 columnDefs: [
-            //                     { name: 'Visit_id' },
-            //                     { name: 'Date' },
-            //                     { name: 'Area_hurt' },
-            //                     { name: 'Reason' },
-            //                     { name: 'Prescription' },
-            //                     { name: 'Followup' },
-            //                     { name: 'Notes' }
-            //                 ]
-            //             }
-
-            //             let data = []
-            //             for (let i = 0; i < $scope.gridOptions.data; i++) {
-            //                 data.push($scope.gridOptions.data[i].subGridOptions.data)
-            //             }
-            //             console.log(data)
-            //             row.entity.subGridOptions.data = data;
-            //             console.log(row.entity.subGridOptions, 'subgrid')
-            //         }
-            //     })
-            // gridApi.expandable.on.rowExpandedStateChanged($scope, function(row) {
-            //     console.log(document.getElementsByClassName("'ui-grid-row-selected': row.isSelected"))
-            //     console.log(row.isSelected)
-            //     console.log(row.entity.subGridOptions)
-            // })
         }
 
     };
-
-    // $scope.receivePatients = () => {
-    //     dataSrv.getPatients().then((response) => {
-    //         $scope.gridOptions.data = response.data;
-    //         for (var i = 0; i < response.data.length; i++) {
-    //             $scope.receiveVisits(response.data[i].id, i)
-    //         }
-    //     })
-    // }
-    // $scope.receivePatients();
-
-    // $scope.receiveVisits = (id, i) => {
-    //     dataSrv.getVisits(id).then((response) => {
-    //         // response.data.map(e => {
-    //         //     e['delete?'] = 'x'
-    //         // })
-    //         $scope.gridOptions.data[i].subGridOptions = {
-    //             data: response.data
-    //         };
-    //     })
-    // };
-
-    // const deleteCell = document.getElementsByClassName('ui-grid-coluiGrid-0093');
-    // const deleteVisitFn = () => {
-    //     alert('This works')
-    // }
-    // console.log(deleteCell)
-    // deleteCell.map(e => {
-    //     e.addEventListener('click', deleteVisitFn)
-    // })
 
     $scope.addPatient = function () {
         dataSrv.addNewPatient().then(function (response) {});
@@ -328,11 +267,11 @@ angular.module('app').service('dataSrv', function ($http) {
             method: 'PUT',
             data: rowEntity
         });
-    }, this.changeVisit = function () {
+    }, this.changeVisit = function (rowEntity) {
         return $http({
             url: '/api/updateVisit',
-            method: 'PUT'
-            // data: 
+            method: 'PUT',
+            data: rowEntity
         });
     }, this.removePatient = function (id) {
         return $http({
@@ -340,6 +279,7 @@ angular.module('app').service('dataSrv', function ($http) {
             method: 'DELETE'
         });
     }, this.removeVisit = function (visit_id) {
+        // console.log(visit_id)
         return $http({
             url: '/api/deleteVisit/' + visit_id,
             method: 'DELETE'

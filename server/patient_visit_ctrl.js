@@ -16,7 +16,6 @@ module.exports = {
         })
     },
     addNewPatient: function(req, res) {
-        // console.log(addP)
         req.app.get('db').addPatient().then(function(response) {
             res.status(200).send(response)
         })
@@ -40,15 +39,15 @@ module.exports = {
         })
     },
     changeVisit: function(req, res) {
-        const updateV = [
+        const updateV = [+req.body.visit_id,
             req.body.date,
             req.body.area_hurt,
             req.body.reason,
             req.body.prescription,
             req.body.followup,
-            req.body.notes,
-            req.params.id
+            req.body.notes
         ];
+        // console.log(updateV)
         req.app.get('db').updateVisit(updateV).then(function(response) {
             res.status(200).send('Visit Updated')
         })
@@ -59,7 +58,8 @@ module.exports = {
         })
     },
     removeVisit: function(req, res) {
-        req.app.get('db').deleteVisit([req.params.id]).then(function(response) {
+        // console.log(req.params.visit_id)
+        req.app.get('db').deleteVisit([req.params.visit_id]).then(function(response) {
             res.status(200).send('Visit Removed')
         })
     }
