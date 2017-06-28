@@ -63,7 +63,7 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
                 alert('hi ' + row.entity.name);
             }
         },
-        columnDefs: [{ name: 'id', displayName: 'ID', enableCellEdit: false, width: '5%' }, { name: 'firstname', displayName: 'First Name' }, { name: 'lastname', displayName: 'Last Name' }, { name: 'email', displayName: 'e-mail' }, { name: 'phone_num', displayName: 'Phone #' }, { name: 'dob', displayName: 'DOB' }, {
+        columnDefs: [{ name: 'id', displayName: 'ID', enableCellEdit: false, width: '5%' }, { name: 'firstname', displayName: 'First Name', width: '17%' }, { name: 'lastname', displayName: 'Last Name', width: '17%' }, { name: 'email', displayName: 'e-mail', width: '20%' }, { name: 'phone_num', displayName: 'Phone #', width: '12%' }, { name: 'dob', displayName: 'DOB' }, {
             name: 'gender',
             displayName: 'Gender',
             editableCellTemplate: 'ui-grid/dropdownEditor',
@@ -98,14 +98,6 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
                 });
             };
             $scope.receivePatients();
-
-            // $scope.subGridScope = {
-            //     clickMeSub: function() {
-            //         // console.log($event.target.parentElement.parentElement)
-            //         console.log(this)
-            //             // alert('hi', $event);
-            //     }
-            // };
 
             $scope.receiveVisits = function (id, i) {
                 dataSrv.getVisits(id).then(function (response) {
