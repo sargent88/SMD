@@ -6,7 +6,7 @@ module.exports = {
     },
     removeUser: function(req, res) {
         req.app.get('db').deleteUser([req.params.id]).then(function(response) {
-            res.status(200).send('Patient Removed')
+            res.status(200).send('Users Removed')
         })
     },
     addNewUser: function(req, res) {
@@ -25,7 +25,7 @@ module.exports = {
             req.body.username
         ];
         req.app.get('db').updateUser(updateType).then(function(response) {
-            res.status(200).send('Patient Updated')
+            res.status(200).send('User Good')
         })
     }
 }

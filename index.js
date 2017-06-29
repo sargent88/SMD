@@ -107,7 +107,7 @@ app.get('/auth/me', function(req, res) {
 
 app.get('/auth/logout', function(req, res) {
     req.logout();
-    res.redirect('/home');
+    res.redirect('/');
 })
 
 // function UserInfoCtrl($scope, auth) {
