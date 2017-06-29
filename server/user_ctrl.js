@@ -19,24 +19,6 @@ module.exports = {
             res.status(200).send(response)
         })
     },
-    updatePassword: function(req, res) {
-        const newPass = [
-            req.body.username,
-            req.body.password
-        ];
-        req.app.get('db').updatePassword(newPass).then(function(response) {
-            res.status(200).send(response)
-        })
-    },
-    updateUsername: function(req, res) {
-        const newName = [
-            req.body.email,
-            req.body.username
-        ];
-        req.app.get('db').updateUsername(newName).then(function(response) {
-            res.status(200).send(response)
-        })
-    },
     changeUsers: function(req, res) {
         const updateType = [+req.body.id,
             req.body.type,

@@ -45,18 +45,19 @@ passport.use(new Auth0Strategy({
         callbackURL: '/auth/callback'
     },
     function(accessToken, refreshToken, extraParams, profile, done) {
-        //Find user in database
-        db.getUserByAuthId([profile.id], function(err, user) {
+        var db = app.get('db')
+            //Find user in database
+        db.getUserByAuthId([profile.id]).then((user) => {
             user = user[0];
             if (!user) { //if there isn't one, we'll create one!
                 console.log('CREATING USER');
-                db.createUserByAuth([profile.displayName, profile.id], function(err, user) {
-                    console.log('USER CREATED', userA);
-                    return done(err, user[0]); // GOES TO SERIALIZE USER
+                db.createUserByAuth([profile.displayName, profile.id, profile.nickname]).then((user) => {
+                    console.log('USER CREATED', user);
+                    return done(null, user[0]); // GOES TO SERIALIZE USER
                 })
             } else { //when we find the user, return it
                 console.log('FOUND USER', user);
-                return done(err, user);
+                return done(null, user);
             }
         })
     }
@@ -73,7 +74,7 @@ passport.serializeUser(function(userA, done) {
 
 //USER COMES FROM SESSION - THIS IS INVOKED FOR EVERY ENDPOINT
 passport.deserializeUser(function(userB, done) {
-    var userC = userC;
+    var userC = userB;
     //Things you might do here :
     // Query the database with the user id, get other information to put on req.user
     done(null, userC); //PUTS 'USER' ON REQ.USER
@@ -106,8 +107,16 @@ app.get('/auth/me', function(req, res) {
 
 app.get('/auth/logout', function(req, res) {
     req.logout();
-    res.redirect('/');
+    res.redirect('/home');
 })
+
+// function UserInfoCtrl($scope, auth) {
+//   $scope.auth = auth.profile;
+//   if($scope.auth !== null) {
+//   $scope.loggedin
+// }
+// }
+
 
 app.get('/api/getPatients', controller.getPatients);
 app.get('/api/getVisits/:id', controller.getVisits);
@@ -121,11 +130,9 @@ app.delete('/api/deleteVisit/:visit_id', controller.removeVisit);
 app.get('/api/getUsers', controllerUser.getUsers);
 app.delete('/api/deleteUser/:id', controllerUser.removeUser);
 app.post('/api/addUser', controllerUser.addNewUser);
-app.put('/api/updatePassword', controllerUser.updatePassword);
-app.put('/api/updateUsername', controllerUser.updateUsername);
 app.put('/api/updateUsers', controllerUser.changeUsers);
 
 
 app.listen(3000, function() {
-    console.log('Connected on port', port)
+    console.log(`Connected on port ${port}`)
 })

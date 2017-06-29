@@ -12,31 +12,11 @@ angular.module('app').controller('usersCtrl', function($scope, $http, $timeout, 
 
     }
 
-    $scope.changePassword = (user) => {
-        usersSrv.updatePassword(user).then((response) => {
-            if (response.data = []) {
-                $state.go('home')
-            } else {
-                alert('Try again.')
-            }
-        })
-    }
-
-    $scope.changeUsername = (user) => {
-        usersSrv.updateUsername(user).then((response) => {
-            if (response.data = []) {
-                $state.go('home')
-            } else {
-                alert('Try again.')
-            }
-        })
-    }
 
 
     var gridApi;
 
     $scope.selectArray = []
-    console.log('array: ', $scope.selectArray)
 
     $scope.gridOptions = {
         enableCellEditOnFocus: true,
@@ -67,7 +47,7 @@ angular.module('app').controller('usersCtrl', function($scope, $http, $timeout, 
                         data: response.data,
                         columnDefs: [
                             { name: 'id', enableCellEdit: false },
-                            { name: 'username' },
+                            { name: 'username', enableCellEdit: false },
                             {
                                 name: 'type',
                                 editableCellTemplate: 'ui-grid/dropdownEditor',
@@ -89,15 +69,6 @@ angular.module('app').controller('usersCtrl', function($scope, $http, $timeout, 
 
     };
 
-
-
-
-
-
-    // $scope.addPatient = () => {
-    //     dataSrv.addNewPatient().then((response) => {})
-    //     $scope.receivePatients();
-    // };
 
 
     $scope.removeUser = (id) => {

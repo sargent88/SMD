@@ -19,20 +19,6 @@ angular.module('app').service('usersSrv', function($http) {
                 data: user
             })
         },
-        this.updatePassword = (user) => {
-            return $http({
-                url: '/api/updatePassword',
-                method: 'PUT',
-                data: user
-            })
-        },
-        this.updateUsername = (user) => {
-            return $http({
-                url: '/api/updateUsername',
-                method: 'PUT',
-                data: user
-            })
-        },
         this.changeUsers = (rowEntity) => {
             return $http({
                 url: `/api/updateUsers`,

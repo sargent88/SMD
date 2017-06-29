@@ -10,34 +10,55 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
             .state('users', {
                 url: '/users',
                 templateUrl: './views/users.html',
-                controller: 'usersCtrl'
+                controller: 'usersCtrl',
+                resolve: {
+                    authenticate: function(usersSrv, $state, $rootScope) {
+                        usersSrv.getUsers().then(response => {
+                            if (response === 'NOPE') {
+                                event.preventDefault()
+                                $state.go("login")
+                            }
+                        })
+                    }
+                }
             })
             .state('data', {
                 url: '/data',
                 templateUrl: './views/data.html',
-                controller: 'dataCtrl'
-            })
-            .state('contact', {
-                url: '/contact',
-                templateUrl: './views/contact.html'
-            })
-            .state('register', {
-                url: '/register',
-                templateUrl: './views/register.html',
-                controller: 'usersCtrl'
-            })
-            .state('login', {
-                url: '/login',
-                templateUrl: './views/login.html'
-            })
-            .state('change-password', {
-                url: '/change-password',
-                templateUrl: './views/changePassword.html',
-                controller: 'usersCtrl'
-            })
-            .state('change-username', {
-                url: '/change-username',
-                templateUrl: './views/changeUsername.html',
-                controller: 'usersCtrl'
+                controller: 'dataCtrl',
+                resolve: {
+                    authenticate: function(usersSrv, $state, $rootScope) {
+                        usersSrv.getUsers().then(response => {
+                            if (response === 'NOPE') {
+                                event.preventDefault()
+                                $state.go("login")
+                            }
+                        })
+                    }
+                }
             })
     })
+    .state('contact', {
+        url: '/contact',
+        templateUrl: './views/contact.html'
+    })
+    .state('register', {
+        url: '/register',
+        templateUrl: './views/register.html',
+        controller: 'usersCtrl'
+    })
+    .state('login', {
+        url: '/login',
+        templateUrl: './views/login.html'
+    })
+    .state('change-password', {
+        url: '/change-password',
+        templateUrl: './views/changePassword.html',
+        controller: 'usersCtrl'
+    })
+    .state('change-username', {
+        url: '/change-username',
+        templateUrl: './views/changeUsername.html',
+        controller: 'usersCtrl'
+    })
+})

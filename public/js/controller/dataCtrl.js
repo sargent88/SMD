@@ -17,6 +17,22 @@ angular.module('app').controller('dataCtrl', function($scope, $http, $timeout, $
         multiSelect: false,
         expandableRowTemplate: './views/expandableRow.html',
         expandableRowHeight: 150,
+        exporterCsvFilename: 'myFile.csv',
+        exporterPdfDefaultStyle: { fontSize: 9 },
+        exporterPdfTableStyle: { margin: [20, 20, 20, 20] },
+        exporterPdfTableHeaderStyle: { fontSize: 10, bold: true, italics: true, color: 'black' },
+        exporterPdfHeader: { text: "SMD", style: 'headerStyle' },
+        exporterPdfFooter: function(currentPage, pageCount) {
+            return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+        },
+        exporterPdfCustomFormatter: function(docDefinition) {
+            docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
+            docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
+            return docDefinition;
+        },
+        exporterPdfOrientation: 'landscape',
+        exporterPdfPageSize: 'LETTER',
+        exporterPdfMaxGridWidth: 600,
         expandableRowScope: {
             subGridVariable: 'subGridScopeVariable',
             clickMeSub: function(row) {
@@ -38,8 +54,8 @@ angular.module('app').controller('dataCtrl', function($scope, $http, $timeout, $
                 editableCellTemplate: 'ui-grid/dropdownEditor',
                 editDropdownValueLabel: 'gender',
                 editDropdownOptionsArray: [
-                    { id: 1, gender: 'male' },
-                    { id: 2, gender: 'female' }
+                    { id: 'M', gender: 'M' },
+                    { id: 'F', gender: 'F' }
                 ]
             }
         ],

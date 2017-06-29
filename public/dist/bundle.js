@@ -9,7 +9,17 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
     }).state('users', {
         url: '/users',
         templateUrl: './views/users.html',
-        controller: 'usersCtrl'
+        controller: 'usersCtrl',
+        resolve: {
+            authenticate: function authenticate(usersSrv, $state, $rootScope) {
+                usersSrv.getUsers().then(function (response) {
+                    if (response === 'NOPE') {
+                        event.preventDefault();
+                        $state.go("login");
+                    }
+                });
+            }
+        }
     }).state('data', {
         url: '/data',
         templateUrl: './views/data.html',
@@ -60,6 +70,22 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
         multiSelect: false,
         expandableRowTemplate: './views/expandableRow.html',
         expandableRowHeight: 150,
+        exporterCsvFilename: 'myFile.csv',
+        exporterPdfDefaultStyle: { fontSize: 9 },
+        exporterPdfTableStyle: { margin: [20, 20, 20, 20] },
+        exporterPdfTableHeaderStyle: { fontSize: 10, bold: true, italics: true, color: 'black' },
+        exporterPdfHeader: { text: "SMD", style: 'headerStyle' },
+        exporterPdfFooter: function exporterPdfFooter(currentPage, pageCount) {
+            return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+        },
+        exporterPdfCustomFormatter: function exporterPdfCustomFormatter(docDefinition) {
+            docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
+            docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
+            return docDefinition;
+        },
+        exporterPdfOrientation: 'landscape',
+        exporterPdfPageSize: 'LETTER',
+        exporterPdfMaxGridWidth: 600,
         expandableRowScope: {
             subGridVariable: 'subGridScopeVariable',
             clickMeSub: function clickMeSub(row) {
@@ -72,7 +98,7 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
             displayName: 'Gender',
             editableCellTemplate: 'ui-grid/dropdownEditor',
             editDropdownValueLabel: 'gender',
-            editDropdownOptionsArray: [{ id: 1, gender: 'male' }, { id: 2, gender: 'female' }]
+            editDropdownOptionsArray: [{ id: 'M', gender: 'M' }, { id: 'F', gender: 'F' }]
         }],
         onRegisterApi: function onRegisterApi(gridApi) {
             gridApi = gridApi;
@@ -140,11 +166,11 @@ angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, 
 
 angular.module('app').controller('mainCtrl', function ($scope, mainSrv) {
 
-    //only have a limited amount of calls
-    // mainSrv.getWeather().then((res) => {
-    //     $scope.weather = res.data;
-    // })
+    //only have a limited amount of calls//
 
+    mainSrv.getWeather().then(function (res) {
+        $scope.weather = res.data;
+    });
 });
 'use strict';
 
@@ -160,30 +186,9 @@ angular.module('app').controller('usersCtrl', function ($scope, $http, $timeout,
         });
     };
 
-    $scope.changePassword = function (user) {
-        usersSrv.updatePassword(user).then(function (response) {
-            if (response.data = []) {
-                $state.go('home');
-            } else {
-                alert('Try again.');
-            }
-        });
-    };
-
-    $scope.changeUsername = function (user) {
-        usersSrv.updateUsername(user).then(function (response) {
-            if (response.data = []) {
-                $state.go('home');
-            } else {
-                alert('Try again.');
-            }
-        });
-    };
-
     var gridApi;
 
     $scope.selectArray = [];
-    console.log('array: ', $scope.selectArray);
 
     $scope.gridOptions = {
         enableCellEditOnFocus: true,
@@ -212,7 +217,7 @@ angular.module('app').controller('usersCtrl', function ($scope, $http, $timeout,
                 usersSrv.getUsers().then(function (response) {
                     $scope.gridOptions = {
                         data: response.data,
-                        columnDefs: [{ name: 'id', enableCellEdit: false }, { name: 'username' }, {
+                        columnDefs: [{ name: 'id', enableCellEdit: false }, { name: 'username', enableCellEdit: false }, {
                             name: 'type',
                             editableCellTemplate: 'ui-grid/dropdownEditor',
                             editDropdownValueLabel: 'type',
@@ -225,12 +230,6 @@ angular.module('app').controller('usersCtrl', function ($scope, $http, $timeout,
         }
 
     };
-
-    // $scope.addPatient = () => {
-    //     dataSrv.addNewPatient().then((response) => {})
-    //     $scope.receivePatients();
-    // };
-
 
     $scope.removeUser = function (id) {
         usersSrv.removeUser(id[0]).then(function (response) {});
@@ -316,18 +315,6 @@ angular.module('app').service('usersSrv', function ($http) {
         return $http({
             url: '/api/addUser',
             method: 'POST',
-            data: user
-        });
-    }, this.updatePassword = function (user) {
-        return $http({
-            url: '/api/updatePassword',
-            method: 'PUT',
-            data: user
-        });
-    }, this.updateUsername = function (user) {
-        return $http({
-            url: '/api/updateUsername',
-            method: 'PUT',
             data: user
         });
     }, this.changeUsers = function (rowEntity) {
