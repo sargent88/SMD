@@ -25,6 +25,14 @@ angular.module('app').service('usersSrv', function($http) {
                 method: 'PUT',
                 data: rowEntity
             })
+        },
+        this.getUserByAuthId = () => {
+            return $http({
+                method: 'GET',
+                url: '/security'
+            }).catch(err => {
+                return err
+            })
         }
 
 })

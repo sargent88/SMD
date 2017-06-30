@@ -1,4 +1,4 @@
-angular.module('app').controller('usersCtrl', function($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, usersSrv, $state) {
+angular.module('app').controller('usersCtrl', function($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, usersSrv, $state, authenticate) {
 
 
     $scope.addUser = (user) => {

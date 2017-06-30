@@ -31,7 +31,11 @@ app.use(passport.session());
 
 app.use(express.static('./public'));
 
-
+//Middleware Policy//
+const checkAuth = (req, res, next) => {
+    if (!req.isAuthenticated()) return res.status(401).send("unauthorized");
+    return next()
+}
 
 /////////////
 // DATABASE //
@@ -80,18 +84,7 @@ passport.deserializeUser(function(userB, done) {
     done(null, userC); //PUTS 'USER' ON REQ.USER
 });
 
-
-
 app.get('/auth', passport.authenticate('auth0'));
-
-
-//**************************//
-//To force specific provider://
-//**************************//
-// app.get('/login/google',
-//   passport.authenticate('auth0', {connection: 'google-oauth2'}), function (req, res) {
-//   res.redirect("/");
-// });
 
 app.get('/auth/callback',
     passport.authenticate('auth0', { successRedirect: '/' }),
@@ -131,6 +124,11 @@ app.get('/api/getUsers', controllerUser.getUsers);
 app.delete('/api/deleteUser/:id', controllerUser.removeUser);
 app.post('/api/addUser', controllerUser.addNewUser);
 app.put('/api/updateUsers', controllerUser.changeUsers);
+
+
+app.get('/security', checkAuth, (req, res, next) => {
+    return res.status(200).send(req.user)
+})
 
 
 app.listen(3000, function() {

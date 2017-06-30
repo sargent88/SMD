@@ -12,14 +12,14 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
                 templateUrl: './views/users.html',
                 controller: 'usersCtrl',
                 resolve: {
-                    // authenticate: function(usersSrv, $state, $rootScope) {
-                    //     usersSrv.getUsers().then(response => {
-                    //         if (response === 'NOPE') {
-                    //             event.preventDefault()
-                    //             $state.go("login")
-                    //         }
-                    //     })
-                    // }
+                    authenticate: function(usersSrv, $state) {
+                        usersSrv.getUserByAuthId().then(response => {
+                            if (response.data === 'unauthorized') {
+                                $state.go('home')
+                            }
+                            return response.data
+                        })
+                    }
                 }
             })
             .state('data', {
@@ -27,14 +27,14 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
                 templateUrl: './views/data.html',
                 controller: 'dataCtrl',
                 resolve: {
-                    // authenticate: function(usersSrv, $state, $rootScope) {
-                    //     usersSrv.getUsers().then(response => {
-                    //         if (response === 'NOPE') {
-                    //             event.preventDefault()
-                    //             $state.go("login")
-                    //         }
-                    //     })
-                    // }
+                    authenticate: function(usersSrv, $state) {
+                        usersSrv.getUserByAuthId().then(response => {
+                            if (response.data === 'unauthorized') {
+                                $state.go('home')
+                            }
+                            return response.data
+                        })
+                    }
                 }
             })
             .state('contact', {

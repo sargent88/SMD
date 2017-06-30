@@ -11,37 +11,35 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
         templateUrl: './views/users.html',
         controller: 'usersCtrl',
         resolve: {
-            authenticate: function authenticate(usersSrv, $state, $rootScope) {
-                usersSrv.getUsers().then(function (response) {
-                    if (response === 'NOPE') {
-                        event.preventDefault();
-                        $state.go("login");
+            authenticate: function authenticate(usersSrv, $state) {
+                usersSrv.getUserByAuthId().then(function (response) {
+                    if (response.data === 'unauthorized') {
+                        $state.go('home');
                     }
+                    return response.data;
                 });
             }
         }
     }).state('data', {
         url: '/data',
         templateUrl: './views/data.html',
-        controller: 'dataCtrl'
+        controller: 'dataCtrl',
+        resolve: {
+            authenticate: function authenticate(usersSrv, $state) {
+                usersSrv.getUserByAuthId().then(function (response) {
+                    if (response.data === 'unauthorized') {
+                        $state.go('home');
+                    }
+                    return response.data;
+                });
+            }
+        }
     }).state('contact', {
         url: '/contact',
         templateUrl: './views/contact.html'
-    }).state('register', {
-        url: '/register',
-        templateUrl: './views/register.html',
-        controller: 'usersCtrl'
     }).state('login', {
         url: '/login',
         templateUrl: './views/login.html'
-    }).state('change-password', {
-        url: '/change-password',
-        templateUrl: './views/changePassword.html',
-        controller: 'usersCtrl'
-    }).state('change-username', {
-        url: '/change-username',
-        templateUrl: './views/changeUsername.html',
-        controller: 'usersCtrl'
     });
 });
 'use strict';
@@ -52,7 +50,7 @@ angular.module('app').constant('config', {
 });
 'use strict';
 
-angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, dataSrv, $window) {
+angular.module('app').controller('dataCtrl', function ($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, dataSrv, $window, authenticate) {
 
     var gridApi;
 
@@ -174,7 +172,7 @@ angular.module('app').controller('mainCtrl', function ($scope, mainSrv) {
 });
 'use strict';
 
-angular.module('app').controller('usersCtrl', function ($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, usersSrv, $state) {
+angular.module('app').controller('usersCtrl', function ($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants, usersSrv, $state, authenticate) {
 
     $scope.addUser = function (user) {
         usersSrv.addNewUser(user).then(function (response) {
@@ -322,6 +320,13 @@ angular.module('app').service('usersSrv', function ($http) {
             url: '/api/updateUsers',
             method: 'PUT',
             data: rowEntity
+        });
+    }, this.getUserByAuthId = function () {
+        return $http({
+            method: 'GET',
+            url: '/security'
+        }).catch(function (err) {
+            return err;
         });
     };
 });
