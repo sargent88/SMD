@@ -1,9 +1,13 @@
 <h1>Users</h1>
 <div class="table">
-    <button type="button" id="removeFirstRow" class="btn btn-success" ng-click="removeUser(selectArray)">Remove User</button>
+    <div class="buttons" id="user-btn">
+        <button type="button" id="removeFirstRow" class="btn btn-success" ng-click="removeUser(selectArray)">Remove User</button>
+        <br>
+    </div>
     <br>
+    <strong>Rows</strong>
     <br>
-    <strong>{{ myData.length }} rows</strong>
-    <br>
-    <div id="grid1" ui-grid="gridOptions" ui-grid-cellNav ui-grid-edit ui-grid-resize-columns ui-grid-pinning ui-grid-selection ui-grid-move-columns ui-grid-exporter ui-grid-grouping ui-grid-infinite-scroll class="grid"></div>
+    <div class="chart" id="user-ch">
+        <div id="grid1" ui-grid="gridOptions" ui-grid-cellNav ui-grid-edit ui-grid-resize-columns ui-grid-pinning ui-grid-selection ui-grid-move-columns ui-grid-exporter ui-grid-grouping ui-grid-infinite-scroll class="grid"></div>
+    </div>
 </div>

@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="./dist/styles.0c55ab3d.css" />
+    <!--<link rel="stylesheet" href="./styles/reset.c6d3818a.css" />-->
+    <link rel="stylesheet" href="./dist/styles.ca460114.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.css" />
     <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
 </head>
 
-<body ng-controller="mainCtrl">
+<body class="SMD" ng-controller="mainCtrl">
 
     <div class="site-wrapper" ng-controller="mainCtrl">
         <header class="site-header" role="banner">
@@ -20,20 +21,22 @@
                 <nav class="site-nav">
                     <div class="home">
                         <img ui-sref="home" src="" alt="wolf">
-                    </div>
-                    <div class="hide-home">
-                        <a ui-sref="users">Users</a>
-                        <a ui-sref="data">Data Set</a>
+                        <a class="users" ui-sref="users">Users</a>
+                        <a class="data" ui-sref="data">Data Set</a>
+                        <h1 class="title">SMD</h1>
                     </div>
                 </nav>
-                <nav class="login">
-                    <a href="/auth"><button>Login</button></a>
-                    <a href="/auth/logout"><button>Logout</button></a>
-                </nav>
-                <nav class="weather">
-                    {{weather.name}} {{weather.main.temp.toFixed(0)}}&#8457;
-                    <br><img src="./img/{{weather.weather[0].icon}}.png" alt="weather">
-
+                <nav class="weather-login">
+                    <div class="login">
+                        <a href="/auth"><button>Login</button></a>
+                        <a href="/auth/logout"><button>Logout</button></a>
+                    </div>
+                    </br>
+                    <div class="weather">
+                        {{weather.name}} {{weather.main.temp.toFixed(0)}}&#8457;
+                        </br>
+                        <img src="./img/{{weather.weather[0].icon}}.png" alt="weather">
+                    </div>
                 </nav>
             </div>
         </header>
@@ -44,12 +47,11 @@
         </main>
     </div>
 
-    <foooter>
+    <footer class="site-footer">
         <nav class="map">
-            <a ui-sref="contact">Contact</a>
-
+            <a class="contact" ui-sref="contact">Contact</a>
         </nav>
-    </foooter>
+    </footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>

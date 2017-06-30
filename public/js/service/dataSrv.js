@@ -45,7 +45,6 @@ angular.module('app').service('dataSrv', function($http) {
             })
         },
         this.removeVisit = (visit_id) => {
-            // console.log(visit_id)
             return $http({
                 url: `/api/deleteVisit/${visit_id}`,
                 method: 'DELETE'
