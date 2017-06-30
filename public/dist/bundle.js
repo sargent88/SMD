@@ -5,7 +5,12 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
 
     $stateProvider.state('home', {
         url: '/',
-        templateUrl: './views/home.html'
+        templateUrl: './views/home.html',
+        user: function user(usersSrv) {
+            usersSrv.getUserByAuthId().then(function (response) {
+                console.log('user data: ', response);
+            });
+        }
     }).state('users', {
         url: '/users',
         templateUrl: './views/users.html',
@@ -37,9 +42,6 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
     }).state('contact', {
         url: '/contact',
         templateUrl: './views/contact.html'
-    }).state('login', {
-        url: '/login',
-        templateUrl: './views/login.html'
     });
 });
 'use strict';
@@ -166,9 +168,10 @@ angular.module('app').controller('mainCtrl', function ($scope, mainSrv) {
 
     //only have a limited amount of calls//
 
-    mainSrv.getWeather().then(function (res) {
-        $scope.weather = res.data;
-    });
+    // mainSrv.getWeather().then((res) => {
+    //     $scope.weather = res.data;
+    // })
+
 });
 'use strict';
 

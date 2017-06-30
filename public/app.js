@@ -5,7 +5,12 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
         $stateProvider
             .state('home', {
                 url: '/',
-                templateUrl: './views/home.html'
+                templateUrl: './views/home.html',
+                user: function(usersSrv) {
+                    usersSrv.getUserByAuthId().then(response => {
+                        console.log('user data: ', response)
+                    })
+                }
             })
             .state('users', {
                 url: '/users',
@@ -40,9 +45,5 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
             .state('contact', {
                 url: '/contact',
                 templateUrl: './views/contact.html'
-            })
-            .state('login', {
-                url: '/login',
-                templateUrl: './views/login.html'
             })
     })
