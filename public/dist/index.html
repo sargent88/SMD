@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <!--<link rel="stylesheet" href="./styles/reset.c6d3818a.css" />-->
-    <link rel="stylesheet" href="./dist/styles.ca460114.css" />
+    <link rel="stylesheet" href="./dist/styles.94c1dd79.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.css" />
     <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
@@ -20,16 +20,16 @@
             <div class="container">
                 <nav class="site-nav">
                     <div class="home">
-                        <img ui-sref="home" src="" alt="wolf">
+                        <img class="logo" ui-sref="home" src="./img/wolf.png" alt="wolf">
+                        <h1 class="title">SMD</h1>
                         <a class="users" ui-sref="users">Users</a>
                         <a class="data" ui-sref="data">Data Set</a>
-                        <h1 class="title">SMD</h1>
                     </div>
                 </nav>
                 <nav class="weather-login">
                     <div class="login">
-                        <a href="/auth"><button>Login</button></a>
-                        <a href="/auth/logout"><button>Logout</button></a>
+                        <a href="/auth"><button class="get-in">Login</button></a>
+                        <a href="/auth/logout"><button class="get-out">Logout</button></a>
                     </div>
                     </br>
                     <div class="weather">
@@ -48,7 +48,7 @@
     </div>
 
     <footer class="site-footer">
-        <nav class="map">
+        <nav class="my-info">
             <a class="contact" ui-sref="contact">Contact</a>
         </nav>
     </footer>

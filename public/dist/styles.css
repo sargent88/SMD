@@ -193,20 +193,21 @@ select {
   justify-content: center;
   align-items: center; }
 
-div.container {
+.container {
   width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: space-between; }
 
 .home {
-  width: 68vw;
+  width: 55vw;
   height: 14vh;
   display: flex;
   align-items: center;
   justify-content: space-between; }
 
-nav.weather-login {
+.weather-login {
+  padding-right: 5vw;
   height: 14vh;
   display: flex;
   flex-direction: column;
@@ -214,11 +215,71 @@ nav.weather-login {
   justify-content: center; }
 
 .weather {
+  font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+  font-size: 16px;
   display: flex;
   flex-direction: column;
   align-items: flex-end; }
 
 .title {
-  font-size: 66px; }
+  font-size: 84px; }
+
+.data {
+  text-decoration: none;
+  font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+  color: white;
+  font-size: 24px; }
+
+.users {
+  text-decoration: none;
+  font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+  color: white;
+  font-size: 24px; }
+
+.contact {
+  text-decoration: none;
+  font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+  color: black;
+  font-size: 18px; }
+
+.logo {
+  cursor: pointer;
+  height: 14vh; }
+
+.get-in {
+  background-color: #F4F1EA;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s;
+  /* Safari */
+  transition-duration: 0.4s; }
+
+.get-out {
+  background-color: #F4F1EA;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s;
+  /* Safari */
+  transition-duration: 0.4s; }
+
+.get-in:hover {
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19); }
+
+.get-out:hover {
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19); }
 
 /*# sourceMappingURL=maps/styles.css.map */
