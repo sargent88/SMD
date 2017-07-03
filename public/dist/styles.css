@@ -168,7 +168,8 @@ select {
   font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif; }
 
 .table {
-  padding-left: 10vw; }
+  padding-left: 10vw;
+  padding-top: 2vh; }
 
 #grid1 {
   width: 80vw;
@@ -244,7 +245,8 @@ select {
 
 .logo {
   cursor: pointer;
-  height: 14vh; }
+  height: 14vh;
+  width: auto; }
 
 .get-in {
   background-color: #F4F1EA;
@@ -281,5 +283,105 @@ select {
 
 .get-out:hover {
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19); }
+
+.ContactBackground {
+  display: flex;
+  width: 100%;
+  height: 80vh;
+  align-items: center;
+  justify-content: space-between; }
+
+.medical-contact {
+  padding-left: 7vw; }
+
+.medical-contact-pic {
+  height: 45vh;
+  width: auto;
+  box-shadow: 8px 8px 10px #aaa; }
+
+.contactbox {
+  display: flex;
+  height: 80vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-right: 20vw; }
+
+.ContactText {
+  display: flex;
+  font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+  font-size: 36px;
+  height: 8vh;
+  width: 22vw;
+  justify-content: center;
+  align-items: center; }
+
+.me {
+  display: block;
+  margin: 2em auto;
+  margin-bottom: 3em;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2; }
+
+.fa {
+  padding: 8px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50%; }
+
+.fa:hover {
+  opacity: 0.5; }
+
+.fa-twitter {
+  background: #55ACEE;
+  color: white; }
+
+.fa-github {
+  background: white;
+  color: #24292e; }
+
+.fa-linkedin {
+  background: #0077b5;
+  color: white; }
+
+.fa-code {
+  background: white;
+  color: #1f4056; }
+
+.fa-facebook {
+  background: #3B5998;
+  color: white; }
+
+.fa-google {
+  background: #ea4335;
+  color: white; }
+
+.home-moto {
+  display: flex;
+  align-items: center;
+  height: 80vh;
+  width: 100%;
+  justify-content: center; }
+
+.moto {
+  font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+  font-size: 36px;
+  display: flex;
+  height: 50vh;
+  width: 30vw;
+  flex-wrap: wrap; }
+
+.keyboard {
+  padding-left: 5vw; }
+
+.keyboard-pic {
+  box-shadow: 8px 8px 10px #aaa;
+  width: 52vw;
+  height: auto; }
 
 /*# sourceMappingURL=maps/styles.css.map */
