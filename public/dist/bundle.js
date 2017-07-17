@@ -18,6 +18,7 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
         resolve: {
             authenticate: function authenticate(usersSrv, $state) {
                 usersSrv.getUserByAuthId().then(function (response) {
+                    console.log('data: ', response);
                     if (response.data === 'unauthorized') {
                         $state.go('home');
                     }
@@ -43,12 +44,6 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
         url: '/contact',
         templateUrl: './views/contact.html'
     });
-});
-'use strict';
-
-angular.module('app').constant('config', {
-    weatherAPI: '3c2c06ffa41e54040d66574f915f49cd',
-    weatherZipCode: 84150
 });
 'use strict';
 
@@ -286,12 +281,12 @@ angular.module('app').service('dataSrv', function ($http) {
 });
 'use strict';
 
-angular.module('app').service('mainSrv', function ($http, config) {
+angular.module('app').service('mainSrv', function ($http) {
 
     this.getWeather = function () {
         return $http({
             method: 'get',
-            url: 'http://api.openweathermap.org/data/2.5/weather?zip=' + config.weatherZipCode + ',us&APPID=' + config.weatherAPI + '&units=imperial'
+            url: '/api/weather'
 
         });
     };

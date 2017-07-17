@@ -5,7 +5,8 @@ const express = require('express'),
     passport = require('passport'),
     Auth0Strategy = require('passport-auth0'),
     config = require('./config.js'),
-    cors = require('cors');
+    cors = require('cors'),
+    request = require('request');
 
 const app = express();
 
@@ -19,6 +20,7 @@ massive(config.url).then(db => {
 }).catch((err) => {
     console.log(err)
 })
+
 
 app.use(bodyParser.json());
 app.use(session({
@@ -124,6 +126,18 @@ app.get('/api/getUsers', controllerUser.getUsers);
 app.delete('/api/deleteUser/:id', controllerUser.removeUser);
 app.post('/api/addUser', controllerUser.addNewUser);
 app.put('/api/updateUsers', controllerUser.changeUsers);
+
+app.get('/api/weather', function(req, res){
+    request({
+        uri: `http://api.openweathermap.org/data/2.5/weather?zip=${config.weatherZipCode},us&APPID=${config.weatherAPI}&units=imperial`,
+        method: 'GET',
+        timeout: 10000,
+        followRedirect: true,
+        maxRedirects: 10
+        }, function(error, response, body){
+        res.send(body);
+    })   
+});
 
 
 app.get('/security', checkAuth, (req, res, next) => {
