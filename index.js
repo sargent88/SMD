@@ -15,7 +15,7 @@ const port = 3000;
 const controller = require('./server/patient_visit_ctrl.js');
 const controllerUser = require('./server/user_ctrl.js');
 
-massive(config.url).then(db => {
+massive(process.env.connectionString).then(db => {
     app.set('db', db)
 }).catch((err) => {
     console.log(err)
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: config.secret
+    secret: process.env.secret
 }))
 app.use(passport.initialize());
 app.use(passport.session());
@@ -45,9 +45,9 @@ const checkAuth = (req, res, next) => {
 
 
 passport.use(new Auth0Strategy({
-        domain: config.auth0.domain,
-        clientID: config.auth0.clientID,
-        clientSecret: config.auth0.clientSecret,
+        domain: process.env.domain,
+        clientID: process.env.clientID,
+        clientSecret: process.env.clientSecret,
         callbackURL: '/auth/callback'
     },
     function(accessToken, refreshToken, extraParams, profile, done) {
@@ -129,7 +129,7 @@ app.put('/api/updateUsers', controllerUser.changeUsers);
 
 app.get('/api/weather', function(req, res){
     request({
-        uri: `http://api.openweathermap.org/data/2.5/weather?zip=${config.weatherZipCode},us&APPID=${config.weatherAPI}&units=imperial`,
+        uri: `http://api.openweathermap.org/data/2.5/weather?zip=${process.env.weatherZipCode},us&APPID=${process.env.weatherAPI}&units=imperial`,
         method: 'GET',
         timeout: 10000,
         followRedirect: true,
@@ -145,6 +145,6 @@ app.get('/security', checkAuth, (req, res, next) => {
 })
 
 
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, function() {
     console.log(`Connected on port ${port}`)
 })
