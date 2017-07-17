@@ -19,6 +19,7 @@ angular.module('app', ['ui.router', 'ngTouch', 'ui.grid', 'ui.grid.cellNav', 'ui
                 resolve: {
                     authenticate: function(usersSrv, $state) {
                         usersSrv.getUserByAuthId().then(response => {
+                            console.log('data: ', response)
                             if (response.data === 'unauthorized') {
                                 $state.go('home')
                             }
