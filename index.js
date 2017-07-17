@@ -45,9 +45,9 @@ const checkAuth = (req, res, next) => {
 
 
 passport.use(new Auth0Strategy({
-        domain: config.auth0.domain,
-        clientID: config.auth0.clientID,
-        clientSecret: config.auth0.clientSecret,
+        domain: config.domain,
+        clientID: config.clientID,
+        clientSecret: config.clientSecret,
         callbackURL: '/auth/callback'
     },
     function(accessToken, refreshToken, extraParams, profile, done) {
